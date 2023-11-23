@@ -1,4 +1,4 @@
-import { ControlSurfaceEnableControlEvent, ControlSurfaceEvent, ControlSurfaceStringEvent } from "./control-surface-event";
+import { ControlSurfaceEnable, ControlSurfaceEnableControlEvent, ControlSurfaceEvent, ControlSurfaceStringEvent } from "./control-surface-event";
 import { ControlSurfaceEventGroup } from "./control-surface-event-group";
 import { ControlSurfaceEventType } from "./control-surface-event-type";
 
@@ -12,12 +12,24 @@ export class ControlSurfaceControl extends ControlSurfaceEventGroup {
   private evColors?: ControlSurfaceStringEvent
   private evProperties?: ControlSurfaceStringEvent
 
-  getName() {
+  get name(): string | undefined {
     return this.evName?.value
   }
-  setName(name: string) {
+  set name(name: string) {
     this.evName ??= ControlSurfaceEvent.create(ControlSurfaceEventType.Name) as ControlSurfaceStringEvent
     this.evName.value = name
+  }
+
+  get enable(): ControlSurfaceEnable | undefined {
+    return this.evEnable?.value
+  }
+  set enable(enable: ControlSurfaceEnable | undefined) {
+    if (typeof(enable) === 'undefined') {
+      this.evEnable = undefined
+    } else {
+      this.evEnable ??= ControlSurfaceEvent.create(ControlSurfaceEventType.EnableControl) as ControlSurfaceEnableControlEvent
+      this.evEnable.value = enable
+    }
   }
 
   getEvents(): ControlSurfaceEvent[] {

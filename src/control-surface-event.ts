@@ -1,7 +1,7 @@
 import { ArrayBufferStream } from "array-buffer-stream"
 import { ControlSurfaceEventType } from "./control-surface-event-type"
 
-export abstract class ControlSurfaceEvent {
+export abstract class ControlSurfaceEvent<T = any> {
   /**
    * Numeric ControlSurfaceEventType.
    */
@@ -16,7 +16,7 @@ export abstract class ControlSurfaceEvent {
   /**
    * Event value. Data type varies by event type.
    */
-  value: any
+  value?: T
 
   constructor(type: number) {
     this.type = type
@@ -44,23 +44,20 @@ export abstract class ControlSurfaceEvent {
   }
 }
 
-export class ControlSurfaceBinaryEvent extends ControlSurfaceEvent {
-  override value: ArrayBuffer = new ArrayBuffer(0)
-
+export class ControlSurfaceBinaryEvent extends ControlSurfaceEvent<ArrayBuffer> {
   getBinary(): ArrayBuffer {
-    return this.value
+    return this.value ?? new ArrayBuffer(0)
   }
   setBinary(buffer: ArrayBuffer) {
     this.value = buffer
   }
 }
 
-export class ControlSurfaceStringEvent extends ControlSurfaceEvent {
-  override value: string = ''
-
+export class ControlSurfaceStringEvent extends ControlSurfaceEvent<string> {
   getBinary(): ArrayBuffer {
-    const stream = new ArrayBufferStream(new ArrayBuffer(this.value.length * 2))
-    stream.writeUtf16String(this.value, true)
+    const value = this.value ?? ''
+    const stream = new ArrayBufferStream(new ArrayBuffer(value.length * 2))
+    stream.writeUtf16String(value, true)
     return stream.buffer
   }
   setBinary(buffer: ArrayBuffer) {
@@ -68,24 +65,31 @@ export class ControlSurfaceStringEvent extends ControlSurfaceEvent {
   }
 }
 
-export class ControlSurfaceEnableControlEvent extends ControlSurfaceEvent {
-  override value: undefined = undefined
+export type ControlSurfaceEnable = {
+  current: number,
+  default: number,
+  index: number,
+}
 
-  current: number = 0
-  default: number = 0
-  index: number = 0
-
+export class ControlSurfaceEnableControlEvent extends ControlSurfaceEvent<ControlSurfaceEnable> {
   getBinary(): ArrayBuffer {
+    const value = this.value ?? {
+      current: 0,
+      default: 0,
+      index: 0,
+    }
     const stream = new ArrayBufferStream(new ArrayBuffer(12))
-    stream.writeFloat32(this.current, true)
-    stream.writeFloat32(this.default, true)
-    stream.writeUint32(this.index, true)
+    stream.writeFloat32(value.current, true)
+    stream.writeFloat32(value.default, true)
+    stream.writeUint32(value.index, true)
     return stream.buffer
   }
   setBinary(buffer: ArrayBuffer) {
     const stream = new ArrayBufferStream(buffer)
-    this.current = stream.readFloat32(true)
-    this.default = stream.readFloat32(true)
-    this.index = stream.readUint32(true)
+    this.value = {
+      current: stream.readFloat32(true),
+      default: stream.readFloat32(true),
+      index: stream.readUint32(true),
+    }
   }
 }
