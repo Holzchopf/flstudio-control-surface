@@ -1,6 +1,6 @@
 {
   "name": "control-surface-processor",
-  "version": "0.1.0-b",
+  "version": "0.1.0-c",
   "description": "processes FL Studio Control Surface plugin states",
   "main": "./lib/index.js",
   "module": "./lib/index.js",
