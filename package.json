@@ -1,0 +1,24 @@
+{
+  "name": "control-surface-processor",
+  "version": "0.1.0-a",
+  "description": "processes FL Studio Control Surface plugin states",
+  "main": "index.js",
+  "module": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "scripts": {
+    "build": "rm -f ./lib/** && npx tsc && npm pack",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "flstudio",
+    "control surface"
+  ],
+  "author": "Olivier Stuker",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "array-buffer-stream": "file:../array-buffer-stream/array-buffer-stream-0.1.0-a.tgz"
+  }
+}
