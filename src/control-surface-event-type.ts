@@ -15,8 +15,7 @@ chunk types:
 
 */
 
-
-export const ControlSurfaceEventType: Record<number, string> = {
+const ControlSurfaceEventTypeRaw = {
   2000: 'Options',
   2002: 'SurfaceSize',
   
@@ -28,4 +27,16 @@ export const ControlSurfaceEventType: Record<number, string> = {
   2105: 'ILControl',
   2106: 'Colors',
   2107: 'Properties',
+} as const
+
+export type ControlSurfaceEventTypeId = keyof typeof ControlSurfaceEventTypeRaw
+export type ControlSurfaceEventTypeName = typeof ControlSurfaceEventTypeRaw[keyof typeof ControlSurfaceEventTypeRaw] | 'unknown'
+
+export const ControlSurfaceEventType = {
+  ...ControlSurfaceEventTypeRaw,
+  byId: (id: number) => (ControlSurfaceEventTypeRaw as Record<number, ControlSurfaceEventTypeName>)[id] ?? 'unknown',
+  byName: (name: string): number => {
+    const ids = Object.keys(ControlSurfaceEventTypeRaw) as unknown as ControlSurfaceEventTypeId[]
+    return ids.find((id) => ControlSurfaceEventTypeRaw[id] === name) ?? -1
+  }
 }

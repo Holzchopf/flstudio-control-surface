@@ -1,15 +1,15 @@
-import { ControlSurfaceEventType } from "./control-surface-event-type"
+import { ControlSurfaceEventType, ControlSurfaceEventTypeName } from "./control-surface-event-type"
 
 export class ControlSurfaceEvent {
   type: number
-  typeText: string
+  typeName: ControlSurfaceEventTypeName
   size: number
   bytes: ArrayBuffer
   value?: string
 
   constructor(type: number, size: number, bytes: ArrayBuffer) {
     this.type = type
-    this.typeText = ControlSurfaceEventType[type] ?? 'unknown'
+    this.typeName = ControlSurfaceEventType.byId(type)
     this.size = size
     this.bytes = bytes
 
