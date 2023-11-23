@@ -32,7 +32,7 @@ export abstract class ControlSurfaceEvent<T = any> {
   static create(type: number) {
     switch (type) {
       case 2102:
-        return new ControlSurfaceEnableControlEvent(type)
+        return new ControlSurfaceControlEnableEvent(type)
       case 2103:
       case 2105:
       case 2106:
@@ -65,13 +65,13 @@ export class ControlSurfaceStringEvent extends ControlSurfaceEvent<string> {
   }
 }
 
-export type ControlSurfaceEnable = {
-  current: number,
-  default: number,
-  index: number,
+export type ControlEnable = {
+  current?: number,
+  default?: number,
+  index?: number,
 }
 
-export class ControlSurfaceEnableControlEvent extends ControlSurfaceEvent<ControlSurfaceEnable> {
+export class ControlSurfaceControlEnableEvent extends ControlSurfaceEvent<ControlEnable> {
   getBinary(): ArrayBuffer {
     const value = this.value ?? {
       current: 0,
@@ -79,9 +79,9 @@ export class ControlSurfaceEnableControlEvent extends ControlSurfaceEvent<Contro
       index: 0,
     }
     const stream = new ArrayBufferStream(new ArrayBuffer(12))
-    stream.writeFloat32(value.current, true)
-    stream.writeFloat32(value.default, true)
-    stream.writeUint32(value.index, true)
+    stream.writeFloat32(value.current ?? 0, true)
+    stream.writeFloat32(value.default ?? 0, true)
+    stream.writeUint32(value.index ?? 0, true)
     return stream.buffer
   }
   setBinary(buffer: ArrayBuffer) {

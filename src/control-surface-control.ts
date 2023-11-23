@@ -1,11 +1,11 @@
-import { ControlSurfaceEnable, ControlSurfaceEnableControlEvent, ControlSurfaceEvent, ControlSurfaceStringEvent } from "./control-surface-event";
+import { ControlEnable, ControlSurfaceControlEnableEvent, ControlSurfaceEvent, ControlSurfaceStringEvent } from "./control-surface-event";
 import { ControlSurfaceEventGroup } from "./control-surface-event-group";
 import { ControlSurfaceEventType } from "./control-surface-event-type";
 
 export class ControlSurfaceControl extends ControlSurfaceEventGroup {
   private evStart?: ControlSurfaceEvent
   private evEnd?: ControlSurfaceEvent
-  private evEnable?: ControlSurfaceEnableControlEvent
+  private evEnable?: ControlSurfaceControlEnableEvent
   private evName?: ControlSurfaceStringEvent
   private evDimensions?: ControlSurfaceEvent
   private evILControl?: ControlSurfaceStringEvent
@@ -20,14 +20,14 @@ export class ControlSurfaceControl extends ControlSurfaceEventGroup {
     this.evName.value = name
   }
 
-  get enable(): ControlSurfaceEnable | undefined {
+  get enable(): ControlEnable | undefined {
     return this.evEnable?.value
   }
-  set enable(enable: ControlSurfaceEnable | undefined) {
+  set enable(enable: ControlEnable | undefined) {
     if (typeof(enable) === 'undefined') {
       this.evEnable = undefined
     } else {
-      this.evEnable ??= ControlSurfaceEvent.create(ControlSurfaceEventType.EnableControl) as ControlSurfaceEnableControlEvent
+      this.evEnable ??= ControlSurfaceEvent.create(ControlSurfaceEventType.EnableControl) as ControlSurfaceControlEnableEvent
       this.evEnable.value = enable
     }
   }
@@ -49,7 +49,7 @@ export class ControlSurfaceControl extends ControlSurfaceEventGroup {
     super.setEvents(events)
     this.evStart = this.getEventOfType(ControlSurfaceEventType.StartControl)
     this.evEnd = this.getEventOfType(ControlSurfaceEventType.EndControl)
-    this.evEnable = this.getEventOfType(ControlSurfaceEventType.EnableControl) as ControlSurfaceEnableControlEvent
+    this.evEnable = this.getEventOfType(ControlSurfaceEventType.EnableControl) as ControlSurfaceControlEnableEvent
     this.evName = this.getEventOfType(ControlSurfaceEventType.Name)
     this.evDimensions = this.getEventOfType(ControlSurfaceEventType.Dimensions)
     this.evILControl = this.getEventOfType(ControlSurfaceEventType.ILControl)
