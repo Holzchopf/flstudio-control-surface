@@ -44,4 +44,43 @@ export class ControlSurfaceProcessor {
 
     return surface
   }
+
+  /**
+   * Writes a Control Surface state to an ArrayBuffer
+   * @param surface The Control Surface to write.
+   */
+  writeFile(surface: ControlSurface): ArrayBuffer {
+    const buffers: ArrayBuffer[] = []
+
+    let stream: ArrayBufferStream
+
+    // header
+    stream = new ArrayBufferStream(new ArrayBuffer(4))
+    stream.writeUint32(surface.version ?? 1, true)
+    buffers.push(stream.buffer)
+
+    // events
+    surface.events.forEach((e) => {
+      const byteLength = 4 + 4 + 4 + e.bytes.byteLength
+      stream = new ArrayBufferStream(new ArrayBuffer(byteLength))
+      stream.writeUint32(e.type, true)
+      stream.writeUint32(e.bytes.byteLength, true)
+      stream.writeUint32(0, true)
+      stream.writeBytes(e.bytes)
+      buffers.push(stream.buffer)
+    })
+
+    // concatenate all those ArrayBuffers
+    const byteLength = buffers.reduce((acc, buffer) => {
+      acc += buffer.byteLength
+      return acc
+    }, 0)
+    const out = new Uint8Array(byteLength)
+    let offset = 0
+    buffers.forEach((buffer) => {
+      out.set(new Uint8Array(buffer), offset)
+      offset += buffer.byteLength
+    })
+    return out.buffer
+  }
 }
