@@ -20,8 +20,6 @@ export class ControlSurfaceEvent {
       case 2106:
       case 2107: {
         this.value = new TextDecoder('utf-16le').decode(bytes)
-        // remove null termination
-        this.value = this.value.slice(0, -1)
         break
       }
     }
