@@ -1,4 +1,4 @@
-import { ArrayBufferStream, joinArrayBuffers } from "array-buffer-stream"
+import { ArrayBufferStream, joinArrayBuffers } from "@holzchopf/array-buffer-stream"
 import { ControlSurfaceEvent } from "./control-surface-event"
 import { ControlSurfaceOptions } from "./control-surface-options"
 import { ControlSurfaceControl } from "./control-surface-control"

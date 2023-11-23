@@ -1,4 +1,4 @@
-import { ArrayBufferStream } from "array-buffer-stream"
+import { ArrayBufferStream } from "@holzchopf/array-buffer-stream"
 import { ControlSurfaceEventType } from "./control-surface-event-type"
 
 export abstract class ControlSurfaceEvent<T = any> {
