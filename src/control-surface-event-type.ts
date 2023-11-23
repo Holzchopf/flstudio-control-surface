@@ -16,27 +16,29 @@ chunk types:
 */
 
 const ControlSurfaceEventTypeRaw = {
-  2000: 'Options',
-  2002: 'SurfaceSize',
+  Options: 2000,
+  SurfaceSize: 2002,
   
-  2100: 'StartControl',
-  2101: 'EndControl',
-  2102: 'EnableControl',
-  2103: 'Name',
-  2104: 'Dimensions',
-  2105: 'ILControl',
-  2106: 'Colors',
-  2107: 'Properties',
+  StartControl: 2100,
+  EndControl: 2101,
+  EnableControl: 2102,
+  Name: 2103,
+  Dimensions: 2104,
+  ILControl: 2105,
+  Colors: 2106,
+  Properties: 2107,
 } as const
 
-export type ControlSurfaceEventTypeId = keyof typeof ControlSurfaceEventTypeRaw
-export type ControlSurfaceEventTypeName = typeof ControlSurfaceEventTypeRaw[keyof typeof ControlSurfaceEventTypeRaw] | 'unknown'
+export type ControlSurfaceEventTypeName = keyof typeof ControlSurfaceEventTypeRaw
+export type ControlSurfaceEventTypeId = typeof ControlSurfaceEventTypeRaw[ControlSurfaceEventTypeName]
 
 export const ControlSurfaceEventType = {
   ...ControlSurfaceEventTypeRaw,
-  byId: (id: number) => (ControlSurfaceEventTypeRaw as Record<number, ControlSurfaceEventTypeName>)[id] ?? 'unknown',
-  byName: (name: string): number => {
-    const ids = Object.keys(ControlSurfaceEventTypeRaw) as unknown as ControlSurfaceEventTypeId[]
-    return ids.find((id) => ControlSurfaceEventTypeRaw[id] === name) ?? -1
+  name: (id: number): ControlSurfaceEventTypeName | 'unknown' => {
+    const names = Object.keys(ControlSurfaceEventTypeRaw) as ControlSurfaceEventTypeName[]
+    return names.find((n) => ControlSurfaceEventTypeRaw[n] === id) ?? 'unknown'
+  },
+  byName: (name: string): ControlSurfaceEventTypeId | undefined => {
+    return ControlSurfaceEventTypeRaw[name as ControlSurfaceEventTypeName] ?? undefined
   }
 }
