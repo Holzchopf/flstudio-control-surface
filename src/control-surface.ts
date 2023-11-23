@@ -1,5 +1,7 @@
 import { ArrayBufferStream, joinArrayBuffers } from "array-buffer-stream"
 import { ControlSurfaceEvent } from "./control-surface-event"
+import { ControlSurfaceOptions } from "./control-surface-options"
+import { ControlSurfaceControl } from "./control-surface-control"
 
 /*
 
@@ -22,9 +24,14 @@ export class ControlSurface {
   version: number = 1
 
   /**
-   * ControlSurfaceEvents in this surface.
+   * Surface options.
    */
-  events: ControlSurfaceEvent[] = []
+  options = new ControlSurfaceOptions()
+
+  /**
+   * Controls on this surface.
+   */
+  controls: ControlSurfaceControl[] = []
 
   /**
    * Creates the binary data for this surface and returns it.
@@ -39,8 +46,15 @@ export class ControlSurface {
     stream.writeUint32(this.version, true)
     buffers.push(stream.buffer)
 
-    // events
-    this.events.forEach((event) => {
+    // collect events
+    const events: ControlSurfaceEvent[] = []
+    events.push(...this.options.getEvents())
+    this.controls.forEach((control) => {
+      events.push(...control.getEvents())
+    })
+
+    // store events
+    events.forEach((event) => {
       const bytes = event.getBinary()
       const size = bytes.byteLength
       stream = new ArrayBufferStream(new ArrayBuffer(4 + 4 + 4 + size))
@@ -63,6 +77,8 @@ export class ControlSurface {
     // header
     this.version = stream.readUint32(true)
 
+    const events: ControlSurfaceEvent[] = []
+
     // read events until end of data
     while (!stream.eof()) {
       const type = stream.readUint32(true)
@@ -71,7 +87,28 @@ export class ControlSurface {
       const bytes = stream.readBytes(size)
       const event = ControlSurfaceEvent.create(type)
       event.setBinary(bytes)
-      this.events.push(event)
+      events.push(event)
     }
+
+    // triage events
+    const optionEvents: ControlSurfaceEvent[] = []
+    let controlEvents: ControlSurfaceEvent[] = []
+
+    events.forEach((event) => {
+      if (event.type < 2100) {
+        optionEvents.push(event)
+      } else {
+        controlEvents.push(event)
+        // if an EndControl event occurs, push gathered events and start gathering a new control
+        if (event.typeName === 'EndControl') {
+          const control = new ControlSurfaceControl()
+          control.setEvents(controlEvents)
+          this.controls.push(control)
+          controlEvents = []
+        }
+      }
+    })
+
+    this.options.setEvents(optionEvents)
   }
 }
