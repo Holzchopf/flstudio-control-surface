@@ -30,13 +30,13 @@ export class ControlSurfaceProcessor {
     const surface = new ControlSurface()
 
     // header
-    surface.version = stream.readUint32LE()
+    surface.version = stream.readUint32(true)
 
     // events
     while (!stream.eof()) {
-      const type = stream.readUint32LE()
-      const size = stream.readUint32LE()
-      const reserved = stream.readUint32LE()
+      const type = stream.readUint32(true)
+      const size = stream.readUint32(true)
+      const reserved = stream.readUint32(true)
       const bytes = stream.readBytes(size)
       const event = new ControlSurfaceEvent(type, size, bytes)
       surface.events.push(event)
