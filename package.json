@@ -1,5 +1,5 @@
 {
-  "name": "@holzchopf/control-surface",
+  "name": "@holzchopf/flstudio-control-surface",
   "version": "1.0.0",
   "description": "Reads and writes FL Studio Control Surface plugin states.",
   "main": "./lib/index.js",
@@ -19,7 +19,7 @@
   "author": "Olivier Stuker <oli4stuker@hotmail.com> (https://www.holzchopf.ch/)",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Holzchopf/control-surface.git"
+    "url": "https://github.com/Holzchopf/flstudio-control-surface.git"
   },
   "license": "ISC",
   "devDependencies": {
