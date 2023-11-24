@@ -2,7 +2,7 @@ This file was auto-generated with `zdoccer.js` 2.0.3
 
 # Index
 
-  - [@holzchopf/control-surface](#holzchopf-control-surface)
+  - [@holzchopf/flstudio-control-surface](#holzchopf-flstudio-control-surface)
     - [`class ControlSurfaceControl extends ControlSurfaceEventGroup`](#class-controlsurfacecontrol-extends-controlsurfaceeventgroup)
       - [`get name(): string | undefined`](#get-name-string-undefined)
       - [`get enable(): ControlEnable | undefined`](#get-enable-controlenable-undefined)
@@ -42,9 +42,9 @@ This file was auto-generated with `zdoccer.js` 2.0.3
 
 *original Markdown from src/_preamble.md*
 
-<div id="holzchopf-control-surface"></div><!-- alias: holzchopf-control-surface -->
+<div id="holzchopf-flstudio-control-surface"></div><!-- alias: holzchopf-flstudio-control-surface -->
 
-# @holzchopf/control-surface
+# @holzchopf/flstudio-control-surface
 
 Allows to read and write FL Studio Control Surface states.
 
