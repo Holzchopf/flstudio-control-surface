@@ -2,6 +2,9 @@ import { ControlEnable, ControlSurfaceControlEnableEvent, ControlSurfaceEvent, C
 import { ControlSurfaceEventGroup } from "./control-surface-event-group";
 import { ControlSurfaceEventType } from "./control-surface-event-type";
 
+/**
+ * Class representing a control on the surface. Extends [[ControlSurfaceEventGroup]].
+ */
 export class ControlSurfaceControl extends ControlSurfaceEventGroup {
   private evStart?: ControlSurfaceEvent
   private evEnd?: ControlSurfaceEvent
@@ -12,6 +15,9 @@ export class ControlSurfaceControl extends ControlSurfaceEventGroup {
   private evColors?: ControlSurfaceStringEvent
   private evProperties?: ControlSurfaceStringEvent
 
+  /**
+   * Name of this control.
+   */
   get name(): string | undefined {
     return this.evName?.value
   }
@@ -20,6 +26,9 @@ export class ControlSurfaceControl extends ControlSurfaceEventGroup {
     this.evName.value = name
   }
 
+  /**
+   * [[ControlEnable]] of this control.
+   */
   get enable(): ControlEnable | undefined {
     return this.evEnable?.value
   }

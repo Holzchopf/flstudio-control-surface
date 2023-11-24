@@ -1,13 +1,16 @@
 import { ArrayBufferStream } from "@holzchopf/array-buffer-stream"
 import { ControlSurfaceEventType } from "./control-surface-event-type"
 
+/**
+ * Class for events.
+ */
 export abstract class ControlSurfaceEvent<T = any> {
   /**
-   * Numeric ControlSurfaceEventType.
+   * Numeric [[ControlSurfaceEventType]].
    */
   type: number
   /**
-   * Name of ControlSurfaceEventType. Readonly.
+   * Name of [[ControlSurfaceEventType]]. Readonly.
    */
   get typeName() {
     return ControlSurfaceEventType.name(this.type)
@@ -22,7 +25,14 @@ export abstract class ControlSurfaceEvent<T = any> {
     this.type = type
   }
 
+  /**
+   * Creates the binary data for this event and returns it.
+   */
   abstract getBinary(): ArrayBuffer
+  /**
+   * Sets this event's values from binary data.
+   * @param buffer Binary data.
+   */
   abstract setBinary(buffer: ArrayBuffer): void
 
   /**
@@ -44,6 +54,9 @@ export abstract class ControlSurfaceEvent<T = any> {
   }
 }
 
+/**
+ * Event with binary value data.
+ */
 export class ControlSurfaceBinaryEvent extends ControlSurfaceEvent<ArrayBuffer> {
   getBinary(): ArrayBuffer {
     return this.value ?? new ArrayBuffer(0)
@@ -53,6 +66,9 @@ export class ControlSurfaceBinaryEvent extends ControlSurfaceEvent<ArrayBuffer> 
   }
 }
 
+/**
+ * Event with string value data.
+ */
 export class ControlSurfaceStringEvent extends ControlSurfaceEvent<string> {
   getBinary(): ArrayBuffer {
     const value = this.value ?? ''
@@ -65,12 +81,27 @@ export class ControlSurfaceStringEvent extends ControlSurfaceEvent<string> {
   }
 }
 
+/**
+ * Enabled controls will have a [[ControlSurfaceControlEnableEvent]] with a value of this type.
+ */
 export type ControlEnable = {
+  /**
+   * Current value. Float, 0 ... 1
+   */
   current?: number,
+  /**
+   * Default value. Float, 0 ... 1
+   */
   default?: number,
+  /**
+   * List index. Integer >= 0
+   */
   index?: number,
 }
 
+/**
+ * Enabled controls will have one of these events.
+ */
 export class ControlSurfaceControlEnableEvent extends ControlSurfaceEvent<ControlEnable> {
   getBinary(): ArrayBuffer {
     const value = this.value ?? {

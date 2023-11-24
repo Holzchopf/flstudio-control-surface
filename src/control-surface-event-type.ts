@@ -29,15 +29,32 @@ const ControlSurfaceEventTypeRaw = {
   Properties: 2107,
 } as const
 
+/**
+ * Known event names.
+ */
 export type ControlSurfaceEventTypeName = keyof typeof ControlSurfaceEventTypeRaw
+/**
+ * Known event IDs.
+ */
 export type ControlSurfaceEventTypeId = typeof ControlSurfaceEventTypeRaw[ControlSurfaceEventTypeName]
 
+/**
+ * Types of the events in an [[ControlSurfaceEventGroup]].
+ */
 export const ControlSurfaceEventType = {
   ...ControlSurfaceEventTypeRaw,
+  /**
+   * Returns the name of a given event ID, or `'unknown'`.
+   * @param id Event ID.
+   */
   name: (id: number): ControlSurfaceEventTypeName | 'unknown' => {
     const names = Object.keys(ControlSurfaceEventTypeRaw) as ControlSurfaceEventTypeName[]
     return names.find((n) => ControlSurfaceEventTypeRaw[n] === id) ?? 'unknown'
   },
+  /**
+   * Returns the ID for a given event name, or `undefined`
+   * @param name Event name.
+   */
   byName: (name: string): ControlSurfaceEventTypeId | undefined => {
     return ControlSurfaceEventTypeRaw[name as ControlSurfaceEventTypeName] ?? undefined
   }

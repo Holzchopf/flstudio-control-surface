@@ -17,6 +17,9 @@ size byte: event data
 
 */
 
+/**
+ * Class representing an FL Studio Control Surface plugin state.
+ */
 export class ControlSurface {
   /**
    * State version number.
