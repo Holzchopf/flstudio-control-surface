@@ -16,8 +16,8 @@ chunk types:
 */
 
 const ControlSurfaceEventTypeRaw = {
-  Options: 2000,
-  SurfaceSize: 2002,
+  SurfaceSettings: 2000,
+  SurfaceDimensions: 2002,
   
   StartControl: 2100,
   EndControl: 2101,
