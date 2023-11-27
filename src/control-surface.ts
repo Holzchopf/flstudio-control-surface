@@ -88,8 +88,7 @@ export class ControlSurface {
       const size = stream.readUint32(true)
       const reserved = stream.readUint32(true)
       const bytes = stream.readBytes(size)
-      const event = ControlSurfaceEvent.create(type)
-      event.setBinary(bytes)
+      const event = ControlSurfaceEvent.create(type, bytes)
       events.push(event)
     }
 
