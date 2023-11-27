@@ -1,4 +1,4 @@
-import { ControlEnable, ControlSurfaceControlEnableEvent, ControlSurfaceEvent, ControlSurfaceStringEvent } from "./control-surface-event";
+import { ControlSurfaceEnableControlEvent, ControlSurfaceEvent, ControlSurfaceStringEvent } from "./control-surface-event";
 import { ControlSurfaceEventGroup } from "./control-surface-event-group";
 import { ControlSurfaceEventType } from "./control-surface-event-type";
 
@@ -6,63 +6,61 @@ import { ControlSurfaceEventType } from "./control-surface-event-type";
  * Class representing a control on the surface. Extends [[ControlSurfaceEventGroup]].
  */
 export class ControlSurfaceControl extends ControlSurfaceEventGroup {
-  private evStart?: ControlSurfaceEvent
-  private evEnd?: ControlSurfaceEvent
-  private evEnable?: ControlSurfaceControlEnableEvent
-  private evName?: ControlSurfaceStringEvent
-  private evDimensions?: ControlSurfaceEvent
-  private evILControl?: ControlSurfaceStringEvent
-  private evColors?: ControlSurfaceStringEvent
-  private evProperties?: ControlSurfaceStringEvent
-
   /**
-   * Name of this control.
+   * Start event.
    */
-  get name(): string | undefined {
-    return this.evName?.value
-  }
-  set name(name: string) {
-    this.evName ??= ControlSurfaceEvent.create(ControlSurfaceEventType.Name) as ControlSurfaceStringEvent
-    this.evName.value = name
-  }
-
+  start?: ControlSurfaceEvent
   /**
-   * [[ControlEnable]] of this control.
+   * End event.
    */
-  get enable(): ControlEnable | undefined {
-    return this.evEnable?.value
-  }
-  set enable(enable: ControlEnable | undefined) {
-    if (typeof(enable) === 'undefined') {
-      this.evEnable = undefined
-    } else {
-      this.evEnable ??= ControlSurfaceEvent.create(ControlSurfaceEventType.EnableControl) as ControlSurfaceControlEnableEvent
-      this.evEnable.value = enable
-    }
-  }
+  end?: ControlSurfaceEvent
+  /**
+   * Enable events.
+   */
+  enable?: ControlSurfaceEnableControlEvent[]
+  /**
+   * Name event.
+   */
+  name?: ControlSurfaceStringEvent
+  /**
+   * Dimension event.
+   */
+  dimensions?: ControlSurfaceEvent
+  /**
+   * ILControl event.
+   */
+  ILControl?: ControlSurfaceStringEvent
+  /**
+   * Color event.
+   */
+  colors?: ControlSurfaceStringEvent
+  /**
+   * Properties event.
+   */
+  properties?: ControlSurfaceStringEvent
 
   getEvents(): ControlSurfaceEvent[] {
     const prototype = [
-      this.evStart ?? ControlSurfaceEvent.create(ControlSurfaceEventType.StartControl),
-      this.evName,
-      this.evDimensions,
-      this.evEnable,
-      this.evILControl,
-      this.evColors,
-      this.evProperties,
-      this.evEnd ?? ControlSurfaceEvent.create(ControlSurfaceEventType.EndControl),
+      this.start ?? ControlSurfaceEvent.create(ControlSurfaceEventType.StartControl),
+      this.name,
+      this.dimensions,
+      ...(this.enable ?? []),
+      this.ILControl,
+      this.colors,
+      this.properties,
+      this.end ?? ControlSurfaceEvent.create(ControlSurfaceEventType.EndControl),
     ]
     return prototype.filter((event) => !!event) as ControlSurfaceEvent[]
   }
   setEvents(events: ControlSurfaceEvent[]): void {
     super.setEvents(events)
-    this.evStart = this.getEventOfType(ControlSurfaceEventType.StartControl)
-    this.evEnd = this.getEventOfType(ControlSurfaceEventType.EndControl)
-    this.evEnable = this.getEventOfType(ControlSurfaceEventType.EnableControl) as ControlSurfaceControlEnableEvent
-    this.evName = this.getEventOfType(ControlSurfaceEventType.Name)
-    this.evDimensions = this.getEventOfType(ControlSurfaceEventType.Dimensions)
-    this.evILControl = this.getEventOfType(ControlSurfaceEventType.ILControl)
-    this.evColors = this.getEventOfType(ControlSurfaceEventType.Colors)
-    this.evProperties = this.getEventOfType(ControlSurfaceEventType.Properties)
+    this.start = this.getEventOfType(ControlSurfaceEventType.StartControl)
+    this.end = this.getEventOfType(ControlSurfaceEventType.EndControl)
+    this.enable = this.getEventsOfType(ControlSurfaceEventType.EnableControl) as ControlSurfaceEnableControlEvent[]
+    this.name = this.getEventOfType(ControlSurfaceEventType.Name)
+    this.dimensions = this.getEventOfType(ControlSurfaceEventType.Dimensions)
+    this.ILControl = this.getEventOfType(ControlSurfaceEventType.ILControl)
+    this.colors = this.getEventOfType(ControlSurfaceEventType.Colors)
+    this.properties = this.getEventOfType(ControlSurfaceEventType.Properties)
   }
 }

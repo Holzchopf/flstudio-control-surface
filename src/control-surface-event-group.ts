@@ -24,6 +24,22 @@ export class ControlSurfaceEventGroup {
   }
 
   /**
+   * Returns all events in this group of given type id.
+   * @param type [[ControlSurfaceEventTypeId]]
+   */
+  getEventsOfType(type: ControlSurfaceEventTypeId) {
+    return this.events.filter((e) => e.type === type)
+  }
+
+  /**
+   * Returns all events in this group of given type name.
+   * @param type [[ControlSurfaceEventTypeName]]
+   */
+  getEventsOfTypeName(type: ControlSurfaceEventTypeName) {
+    return this.events.filter((e) => e.typeName === type)
+  }
+
+  /**
    * Returns the [[ControlSurfaceEvent]]s making up this group.
    */
   getEvents(): ControlSurfaceEvent[] {

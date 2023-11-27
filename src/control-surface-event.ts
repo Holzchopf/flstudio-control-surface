@@ -42,7 +42,7 @@ export abstract class ControlSurfaceEvent<T = any> {
   static create(type: number) {
     switch (type) {
       case 2102:
-        return new ControlSurfaceControlEnableEvent(type)
+        return new ControlSurfaceEnableControlEvent(type)
       case 2103:
       case 2105:
       case 2106:
@@ -58,11 +58,14 @@ export abstract class ControlSurfaceEvent<T = any> {
  * Event with binary value data.
  */
 export class ControlSurfaceBinaryEvent extends ControlSurfaceEvent<ArrayBuffer> {
+  protected view?: DataView
+
   getBinary(): ArrayBuffer {
     return this.value ?? new ArrayBuffer(0)
   }
   setBinary(buffer: ArrayBuffer) {
     this.value = buffer
+    this.view = new DataView(buffer)
   }
 }
 
@@ -82,45 +85,51 @@ export class ControlSurfaceStringEvent extends ControlSurfaceEvent<string> {
 }
 
 /**
- * Enabled controls will have a [[ControlSurfaceControlEnableEvent]] with a value of this type.
+ * Describes how a control is exposed. Enabled controls will have at least one of these events.
  */
-export type ControlEnable = {
-  /**
-   * Current value. Float, 0 ... 1
-   */
-  current?: number,
-  /**
-   * Default value. Float, 0 ... 1
-   */
-  default?: number,
-  /**
-   * List index. Integer >= 0
-   */
-  index?: number,
-}
+export class ControlSurfaceEnableControlEvent extends ControlSurfaceBinaryEvent {
 
-/**
- * Enabled controls will have one of these events.
- */
-export class ControlSurfaceControlEnableEvent extends ControlSurfaceEvent<ControlEnable> {
-  getBinary(): ArrayBuffer {
-    const value = this.value ?? {
-      current: 0,
-      default: 0,
-      index: 0,
-    }
-    const stream = new ArrayBufferStream(new ArrayBuffer(12))
-    stream.writeFloat32(value.current ?? 0, true)
-    stream.writeFloat32(value.default ?? 0, true)
-    stream.writeUint32(value.index ?? 0, true)
-    return stream.buffer
+  constructor(type: number) {
+    super(type)
+    this.setBinary(new ArrayBuffer(12))
   }
-  setBinary(buffer: ArrayBuffer) {
-    const stream = new ArrayBufferStream(buffer)
-    this.value = {
-      current: stream.readFloat32(true),
-      default: stream.readFloat32(true),
-      index: stream.readUint32(true),
-    }
+
+  /**
+   * Returns the control's current value. Float, 0 ... 1
+   */
+  getCurrent(): number {
+    return this.view!.getFloat32(0, true)
+  }
+  /**
+   * Sets the control's current value. Float, 0 ... 1
+   */
+  setCurrent(value: number) {
+    this.view!.setFloat32(0, value, true)
+  }
+
+  /**
+   * Returns the control's default value. Float, 0 ... 1
+   */
+  getDefault(): number {
+    return this.view!.getFloat32(0, true)
+  }
+  /**
+   * Sets the control's default value. Float, 0 ... 1
+   */
+  setDefault(value: number) {
+    this.view!.setFloat32(0, value, true)
+  }
+
+  /**
+   * Returns the control's list index.
+   */
+  getIndex(): number {
+    return this.view!.getUint32(0, true)
+  }
+  /**
+   * Sets the control's list index.
+   */
+  setIndex(value: number) {
+    this.view!.setUint32(0, value, true)
   }
 }

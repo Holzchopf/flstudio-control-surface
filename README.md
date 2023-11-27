@@ -19,11 +19,19 @@ This file was auto-generated with `zdoccer.js` 2.0.3
         - [2106 - ILControl, Colors](#2106-ilcontrol-colors)
         - [2106 - ILControl, Properties](#2106-ilcontrol-properties)
     - [`class ControlSurfaceControl extends ControlSurfaceEventGroup`](#class-controlsurfacecontrol-extends-controlsurfaceeventgroup)
-      - [`get name(): string | undefined`](#get-name-string-undefined)
-      - [`get enable(): ControlEnable | undefined`](#get-enable-controlenable-undefined)
+      - [`start?: ControlSurfaceEvent`](#start-controlsurfaceevent)
+      - [`end?: ControlSurfaceEvent`](#end-controlsurfaceevent)
+      - [`enable?: ControlSurfaceEnableControlEvent[]`](#enable-controlsurfaceenablecontrolevent)
+      - [`name?: ControlSurfaceStringEvent`](#name-controlsurfacestringevent)
+      - [`dimensions?: ControlSurfaceEvent`](#dimensions-controlsurfaceevent)
+      - [`ILControl?: ControlSurfaceStringEvent`](#ilcontrol-controlsurfacestringevent)
+      - [`colors?: ControlSurfaceStringEvent`](#colors-controlsurfacestringevent)
+      - [`properties?: ControlSurfaceStringEvent`](#properties-controlsurfacestringevent)
     - [`class ControlSurfaceEventGroup`](#class-controlsurfaceeventgroup)
       - [`getEventOfType(type: ControlSurfaceEventTypeId)`](#geteventoftype-type-controlsurfaceeventtypeid)
       - [`getEventOfTypeName(type: ControlSurfaceEventTypeName)`](#geteventoftypename-type-controlsurfaceeventtypename)
+      - [`getEventsOfType(type: ControlSurfaceEventTypeId)`](#geteventsoftype-type-controlsurfaceeventtypeid)
+      - [`getEventsOfTypeName(type: ControlSurfaceEventTypeName)`](#geteventsoftypename-type-controlsurfaceeventtypename)
       - [`getEvents(): ControlSurfaceEvent[]`](#getevents-controlsurfaceevent)
       - [`setEvents(events: ControlSurfaceEvent[])`](#setevents-events-controlsurfaceevent)
     - [`type ControlSurfaceEventTypeName = keyof typeof ControlSurfaceEventTypeRaw`](#type-controlsurfaceeventtypename-keyof-typeof-controlsurfaceeventtyperaw)
@@ -40,11 +48,13 @@ This file was auto-generated with `zdoccer.js` 2.0.3
       - [`static create(type: number)`](#static-create-type-number)
     - [`class ControlSurfaceBinaryEvent extends ControlSurfaceEvent<ArrayBuffer>`](#class-controlsurfacebinaryevent-extends-controlsurfaceevent-arraybuffer)
     - [`class ControlSurfaceStringEvent extends ControlSurfaceEvent<string>`](#class-controlsurfacestringevent-extends-controlsurfaceevent-string)
-    - [`type ControlEnable =`](#type-controlenable)
-      - [`current?: number,`](#current-number)
-      - [`default?: number,`](#default-number)
-      - [`index?: number,`](#index-number)
-    - [`class ControlSurfaceControlEnableEvent extends ControlSurfaceEvent<ControlEnable>`](#class-controlsurfacecontrolenableevent-extends-controlsurfaceevent-controlenable)
+    - [`class ControlSurfaceEnableControlEvent extends ControlSurfaceBinaryEvent`](#class-controlsurfaceenablecontrolevent-extends-controlsurfacebinaryevent)
+      - [`getCurrent(): number`](#getcurrent-number)
+      - [`setCurrent(value: number)`](#setcurrent-value-number)
+      - [`getDefault(): number`](#getdefault-number)
+      - [`setDefault(value: number)`](#setdefault-value-number)
+      - [`getIndex(): number`](#getindex-number)
+      - [`setIndex(value: number)`](#setindex-value-number)
     - [`class ControlSurface`](#class-controlsurface)
       - [`version: number = 1`](#version-number-1)
       - [`options = new ControlSurfaceOptions()`](#options-new-controlsurfaceoptions)
@@ -212,20 +222,68 @@ The value of this event is a `utf-16le` string. It typically contains the proper
 Class representing a control on the surface. Extends [ControlSurfaceEventGroup **&#x1f875;**](#class-controlsurfaceeventgroup).
 
 
-<div id="get-name-string-undefined"></div><!-- alias: get-name -->
+<div id="start-controlsurfaceevent"></div><!-- alias: start -->
 
-### `get name(): string | undefined`
-
-
-Name of this control.
+### `start?: ControlSurfaceEvent`
 
 
-<div id="get-enable-controlenable-undefined"></div><!-- alias: get-enable -->
-
-### `get enable(): ControlEnable | undefined`
+Start event.
 
 
-[ControlEnable **&#x1f875;**](#type-controlenable) of this control.
+<div id="end-controlsurfaceevent"></div><!-- alias: end -->
+
+### `end?: ControlSurfaceEvent`
+
+
+End event.
+
+
+<div id="enable-controlsurfaceenablecontrolevent"></div><!-- alias: enable -->
+
+### `enable?: ControlSurfaceEnableControlEvent[]`
+
+
+Enable events.
+
+
+<div id="name-controlsurfacestringevent"></div><!-- alias: name -->
+
+### `name?: ControlSurfaceStringEvent`
+
+
+Name event.
+
+
+<div id="dimensions-controlsurfaceevent"></div><!-- alias: dimensions -->
+
+### `dimensions?: ControlSurfaceEvent`
+
+
+Dimension event.
+
+
+<div id="ilcontrol-controlsurfacestringevent"></div><!-- alias: ilcontrol -->
+
+### `ILControl?: ControlSurfaceStringEvent`
+
+
+ILControl event.
+
+
+<div id="colors-controlsurfacestringevent"></div><!-- alias: colors -->
+
+### `colors?: ControlSurfaceStringEvent`
+
+
+Color event.
+
+
+<div id="properties-controlsurfacestringevent"></div><!-- alias: properties -->
+
+### `properties?: ControlSurfaceStringEvent`
+
+
+Properties event.
 
 
 
@@ -257,6 +315,24 @@ Returns the first event in this group of given type id.
 
 
 Returns the first event in this group of given type name.
+- *param* `type` &mdash; [ControlSurfaceEventTypeName **&#x1f875;**](#type-controlsurfaceeventtypename-keyof-typeof-controlsurfaceeventtyperaw)
+
+
+<div id="geteventsoftype-type-controlsurfaceeventtypeid"></div><!-- alias: geteventsoftype -->
+
+### `getEventsOfType(type: ControlSurfaceEventTypeId)`
+
+
+Returns all events in this group of given type id.
+- *param* `type` &mdash; [ControlSurfaceEventTypeId **&#x1f875;**](#type-controlsurfaceeventtypeid-typeof-controlsurfaceeventtyperaw-controlsurfaceeventtypename)
+
+
+<div id="geteventsoftypename-type-controlsurfaceeventtypename"></div><!-- alias: geteventsoftypename -->
+
+### `getEventsOfTypeName(type: ControlSurfaceEventTypeName)`
+
+
+Returns all events in this group of given type name.
 - *param* `type` &mdash; [ControlSurfaceEventTypeName **&#x1f875;**](#type-controlsurfaceeventtypename-keyof-typeof-controlsurfaceeventtyperaw)
 
 
@@ -404,44 +480,60 @@ Event with binary value data.
 Event with string value data.
 
 
-<div id="type-controlenable"></div><!-- alias: controlenable -->
+<div id="class-controlsurfaceenablecontrolevent-extends-controlsurfacebinaryevent"></div><!-- alias: controlsurfaceenablecontrolevent -->
 
-## `type ControlEnable =`
-
-
-Enabled controls will have a [ControlSurfaceControlEnableEvent **&#x1f875;**](#class-controlsurfacecontrolenableevent-extends-controlsurfaceevent-controlenable) with a value of this type.
+## `class ControlSurfaceEnableControlEvent extends ControlSurfaceBinaryEvent`
 
 
-<div id="current-number"></div><!-- alias: current -->
-
-### `current?: number,`
+Describes how a control is exposed. Enabled controls will have at least one of these events.
 
 
-Current value. Float, 0 ... 1
+<div id="getcurrent-number"></div><!-- alias: getcurrent -->
+
+### `getCurrent(): number`
 
 
-<div id="default-number"></div><!-- alias: default -->
-
-### `default?: number,`
+Returns the control's current value. Float, 0 ... 1
 
 
-Default value. Float, 0 ... 1
+<div id="setcurrent-value-number"></div><!-- alias: setcurrent -->
+
+### `setCurrent(value: number)`
 
 
-<div id="index-number"></div><!-- alias: index -->
-
-### `index?: number,`
+Sets the control's current value. Float, 0 ... 1
 
 
-List index. Integer >= 0
+<div id="getdefault-number"></div><!-- alias: getdefault -->
+
+### `getDefault(): number`
 
 
-<div id="class-controlsurfacecontrolenableevent-extends-controlsurfaceevent-controlenable"></div><!-- alias: controlsurfacecontrolenableevent -->
-
-## `class ControlSurfaceControlEnableEvent extends ControlSurfaceEvent<ControlEnable>`
+Returns the control's default value. Float, 0 ... 1
 
 
-Enabled controls will have one of these events.
+<div id="setdefault-value-number"></div><!-- alias: setdefault -->
+
+### `setDefault(value: number)`
+
+
+Sets the control's default value. Float, 0 ... 1
+
+
+<div id="getindex-number"></div><!-- alias: getindex -->
+
+### `getIndex(): number`
+
+
+Returns the control's list index.
+
+
+<div id="setindex-value-number"></div><!-- alias: setindex -->
+
+### `setIndex(value: number)`
+
+
+Sets the control's list index.
 
 
 
