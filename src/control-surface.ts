@@ -62,8 +62,7 @@ export class ControlSurface {
       const size = bytes.byteLength
       stream = new ArrayBufferStream(new ArrayBuffer(4 + 4 + 4 + size))
       stream.writeUint32(event.type, true)
-      stream.writeUint32(size, true)
-      stream.writeUint32(0, true)
+      stream.writeBigUint64(BigInt(size), true)
       stream.writeBytes(bytes)
       buffers.push(stream.buffer)
     })
@@ -85,8 +84,7 @@ export class ControlSurface {
     // read events until end of data
     while (!stream.eof()) {
       const type = stream.readUint32(true)
-      const size = stream.readUint32(true)
-      const reserved = stream.readUint32(true)
+      const size = Number(stream.readBigUint64(true))
       const bytes = stream.readBytes(size)
       const event = ControlSurfaceEvent.create(type, bytes)
       events.push(event)
