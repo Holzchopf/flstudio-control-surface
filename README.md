@@ -17,7 +17,7 @@ This file was auto-generated with `zdoccer.js` 2.0.3
         - [2104 - Control Dimensions](#2104-control-dimensions)
         - [2105 - ILControl](#2105-ilcontrol)
         - [2106 - ILControl, Colors](#2106-ilcontrol-colors)
-        - [2106 - ILControl, Properties](#2106-ilcontrol-properties)
+        - [2107 - ILControl, Properties](#2107-ilcontrol-properties)
     - [`class ControlSurfaceControl extends ControlSurfaceEventGroup`](#class-controlsurfacecontrol-extends-controlsurfaceeventgroup)
       - [`start?: ControlSurfaceEvent`](#start-controlsurfaceevent)
       - [`end?: ControlSurfaceEvent`](#end-controlsurfaceevent)
@@ -42,10 +42,9 @@ This file was auto-generated with `zdoccer.js` 2.0.3
     - [`abstract class ControlSurfaceEvent<T = any>`](#abstract-class-controlsurfaceevent-t-any)
       - [`type: number`](#type-number)
       - [`get typeName()`](#get-typename)
-      - [`value?: T`](#value-t)
       - [`abstract getBinary(): ArrayBuffer`](#abstract-getbinary-arraybuffer)
       - [`abstract setBinary(buffer: ArrayBuffer): void`](#abstract-setbinary-buffer-arraybuffer-void)
-      - [`static create(type: number)`](#static-create-type-number)
+      - [`static create(type: number, value?: string | ArrayBuffer)`](#static-create-type-number-value-string-arraybuffer)
     - [`class ControlSurfaceBinaryEvent extends ControlSurfaceEvent<ArrayBuffer>`](#class-controlsurfacebinaryevent-extends-controlsurfaceevent-arraybuffer)
     - [`class ControlSurfaceStringEvent extends ControlSurfaceEvent<string>`](#class-controlsurfacestringevent-extends-controlsurfaceevent-string)
     - [`class ControlSurfaceEnableControlEvent extends ControlSurfaceBinaryEvent`](#class-controlsurfaceenablecontrolevent-extends-controlsurfacebinaryevent)
@@ -203,9 +202,9 @@ The value of this event is a `utf-16le` string. It typically contains all the de
 
 The value of this event is a `utf-16le` string. It typically contains the color definitions from the ILControl event.
 
-<div id="2106-ilcontrol-properties"></div><!-- alias: 2106-ilcontrol-properties -->
+<div id="2107-ilcontrol-properties"></div><!-- alias: 2107-ilcontrol-properties -->
 
-#### 2106 - ILControl, Properties
+#### 2107 - ILControl, Properties
 
 The value of this event is a `utf-16le` string. It typically contains the property definitions from the ILControl event.
 
@@ -430,14 +429,6 @@ Numeric [ControlSurfaceEventType **&#x1f875;**](#const-controlsurfaceeventtype).
 Name of [ControlSurfaceEventType **&#x1f875;**](#const-controlsurfaceeventtype). Readonly.
 
 
-<div id="value-t"></div><!-- alias: value -->
-
-### `value?: T`
-
-
-Event value. Data type varies by event type.
-
-
 <div id="abstract-getbinary-arraybuffer"></div><!-- alias: getbinary -->
 
 ### `abstract getBinary(): ArrayBuffer`
@@ -455,9 +446,9 @@ Sets this event's values from binary data.
 - *param* `buffer` &mdash; Binary data.
 
 
-<div id="static-create-type-number"></div><!-- alias: create -->
+<div id="static-create-type-number-value-string-arraybuffer"></div><!-- alias: create -->
 
-### `static create(type: number)`
+### `static create(type: number, value?: string | ArrayBuffer)`
 
 
 Factory function to create a new specific ControlSurfaceEvent.

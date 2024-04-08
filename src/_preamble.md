@@ -104,6 +104,6 @@ The value of this event is a `utf-16le` string. It typically contains all the de
 
 The value of this event is a `utf-16le` string. It typically contains the color definitions from the ILControl event.
 
-#### 2106 - ILControl, Properties
+#### 2107 - ILControl, Properties
 
 The value of this event is a `utf-16le` string. It typically contains the property definitions from the ILControl event.
