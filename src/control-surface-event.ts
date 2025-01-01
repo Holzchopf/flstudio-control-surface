@@ -51,13 +51,29 @@ export abstract class ControlSurfaceEvent<T = any> {
    */
   static create(type: number, value?: string | ArrayBuffer) {
     switch (type) {
+      case 2000:
+        return new ControlSurfaceSettingsEvent(type, value as ArrayBuffer)
+      case 2002:
+        return new ControlSurfaceDimensionsEvent(type, value as ArrayBuffer)
+      case 2100:
+        return new ControlSurfaceStartControlEvent(type, value as ArrayBuffer)
       case 2102:
         return new ControlSurfaceEnableControlEvent(type, value as ArrayBuffer)
+      case 2104:
+        return new ControlSurfaceControlDimensionsEvent(type, value as ArrayBuffer)
       case 2103:
       case 2105:
       case 2106:
       case 2107:
-        return new ControlSurfaceStringEvent(type, value as string)
+        if (typeof value === 'string') {
+          return new ControlSurfaceStringEvent(type, value)
+        } else {
+          const ev = new ControlSurfaceStringEvent(type)
+          if (value) {
+            ev.setBinary(value)
+          }
+          return ev
+        }
       default:
         return new ControlSurfaceBinaryEvent(type, value as ArrayBuffer)
     }
