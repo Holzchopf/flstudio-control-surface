@@ -23,15 +23,15 @@ This file was auto-generated with `zdoccer.js` 2.0.3
       - [`end?: ControlSurfaceEvent`](#end-controlsurfaceevent)
       - [`enable?: ControlSurfaceEnableControlEvent[]`](#enable-controlsurfaceenablecontrolevent)
       - [`name?: ControlSurfaceStringEvent`](#name-controlsurfacestringevent)
-      - [`dimensions?: ControlSurfaceEvent`](#dimensions-controlsurfaceevent)
+      - [`dimensions?: ControlSurfaceControlDimensionsEvent`](#dimensions-controlsurfacecontroldimensionsevent)
       - [`ILControl?: ControlSurfaceStringEvent`](#ilcontrol-controlsurfacestringevent)
       - [`colors?: ControlSurfaceStringEvent`](#colors-controlsurfacestringevent)
       - [`properties?: ControlSurfaceStringEvent`](#properties-controlsurfacestringevent)
     - [`class ControlSurfaceEventGroup`](#class-controlsurfaceeventgroup)
-      - [`getEventOfType(type: ControlSurfaceEventTypeId)`](#geteventoftype-type-controlsurfaceeventtypeid)
-      - [`getEventOfTypeName(type: ControlSurfaceEventTypeName)`](#geteventoftypename-type-controlsurfaceeventtypename)
-      - [`getEventsOfType(type: ControlSurfaceEventTypeId)`](#geteventsoftype-type-controlsurfaceeventtypeid)
-      - [`getEventsOfTypeName(type: ControlSurfaceEventTypeName)`](#geteventsoftypename-type-controlsurfaceeventtypename)
+      - [`getEventOfType<T extends ControlSurfaceEvent>(type: ControlSurfaceEventTypeId): T|undefined`](#geteventoftype-t-extends-controlsurfaceevent-type-controlsurfaceeventtypeid-t-undefined)
+      - [`getEventOfTypeName<T extends ControlSurfaceEvent>(type: ControlSurfaceEventTypeName): T|undefined`](#geteventoftypename-t-extends-controlsurfaceevent-type-controlsurfaceeventtypename-t-undefined)
+      - [`getEventsOfType<T extends ControlSurfaceEvent>(type: ControlSurfaceEventTypeId): T[]|undefined`](#geteventsoftype-t-extends-controlsurfaceevent-type-controlsurfaceeventtypeid-t-undefined)
+      - [`getEventsOfTypeName<T extends ControlSurfaceEvent>(type: ControlSurfaceEventTypeName): T[]|undefined`](#geteventsoftypename-t-extends-controlsurfaceevent-type-controlsurfaceeventtypename-t-undefined)
       - [`getEvents(): ControlSurfaceEvent[]`](#getevents-controlsurfaceevent)
       - [`setEvents(events: ControlSurfaceEvent[])`](#setevents-events-controlsurfaceevent)
     - [`type ControlSurfaceEventTypeName = keyof typeof ControlSurfaceEventTypeRaw`](#type-controlsurfaceeventtypename-keyof-typeof-controlsurfaceeventtyperaw)
@@ -39,15 +39,14 @@ This file was auto-generated with `zdoccer.js` 2.0.3
     - [`const ControlSurfaceEventType =`](#const-controlsurfaceeventtype)
       - [`name: (id: number): ControlSurfaceEventTypeName | 'unknown' =>`](#name-id-number-controlsurfaceeventtypename-unknown)
       - [`byName: (name: string): ControlSurfaceEventTypeId | undefined =>`](#byname-name-string-controlsurfaceeventtypeid-undefined)
-    - [`abstract class ControlSurfaceEvent<T = any>`](#abstract-class-controlsurfaceevent-t-any)
+    - [`class ControlSurfaceEvent`](#class-controlsurfaceevent)
       - [`type: number`](#type-number)
       - [`get typeName()`](#get-typename)
-      - [`abstract getBinary(): ArrayBuffer`](#abstract-getbinary-arraybuffer)
-      - [`abstract setBinary(buffer: ArrayBuffer): void`](#abstract-setbinary-buffer-arraybuffer-void)
-      - [`static create(type: number, value?: string | ArrayBuffer)`](#static-create-type-number-value-string-arraybuffer)
-    - [`class ControlSurfaceBinaryEvent extends ControlSurfaceEvent<ArrayBuffer>`](#class-controlsurfacebinaryevent-extends-controlsurfaceevent-arraybuffer)
-    - [`class ControlSurfaceStringEvent extends ControlSurfaceEvent<string>`](#class-controlsurfacestringevent-extends-controlsurfaceevent-string)
-    - [`class ControlSurfaceEnableControlEvent extends ControlSurfaceBinaryEvent`](#class-controlsurfaceenablecontrolevent-extends-controlsurfacebinaryevent)
+      - [`getBinary()`](#getbinary)
+      - [`setBinary(buffer: ArrayBuffer)`](#setbinary-buffer-arraybuffer)
+      - [`static create(type: number, value?: ArrayBuffer)`](#static-create-type-number-value-arraybuffer)
+    - [`class ControlSurfaceStringEvent extends ControlSurfaceEvent`](#class-controlsurfacestringevent-extends-controlsurfaceevent)
+    - [`class ControlSurfaceEnableControlEvent extends ControlSurfaceEvent`](#class-controlsurfaceenablecontrolevent-extends-controlsurfaceevent)
       - [`getCurrent(): number`](#getcurrent-number)
       - [`setCurrent(value: number)`](#setcurrent-value-number)
       - [`getDefault(): number`](#getdefault-number)
@@ -59,7 +58,7 @@ This file was auto-generated with `zdoccer.js` 2.0.3
       - [`options = new ControlSurfaceOptions()`](#options-new-controlsurfaceoptions)
       - [`controls: ControlSurfaceControl[] = []`](#controls-controlsurfacecontrol)
       - [`getBinary(): ArrayBuffer`](#getbinary-arraybuffer)
-      - [`setBinary(buffer: ArrayBuffer)`](#setbinary-buffer-arraybuffer)
+      - [`setBinary(buffer: ArrayBuffer)`](#setbinary-buffer-arraybuffer--2)
 
 
 ---
@@ -253,9 +252,9 @@ Enable events.
 Name event.
 
 
-<div id="dimensions-controlsurfaceevent"></div><!-- alias: dimensions -->
+<div id="dimensions-controlsurfacecontroldimensionsevent"></div><!-- alias: dimensions -->
 
-### `dimensions?: ControlSurfaceEvent`
+### `dimensions?: ControlSurfaceControlDimensionsEvent`
 
 
 Dimension event.
@@ -296,39 +295,39 @@ Properties event.
 ## `class ControlSurfaceEventGroup`
 
 
-Class representing a group of [ControlSurfaceEvent **&#x1f875;**](#abstract-class-controlsurfaceevent-t-any)s.
+Class representing a group of [ControlSurfaceEvent **&#x1f875;**](#class-controlsurfaceevent)s.
 
 
-<div id="geteventoftype-type-controlsurfaceeventtypeid"></div><!-- alias: geteventoftype -->
+<div id="geteventoftype-t-extends-controlsurfaceevent-type-controlsurfaceeventtypeid-t-undefined"></div><!-- alias: geteventoftype -->
 
-### `getEventOfType(type: ControlSurfaceEventTypeId)`
+### `getEventOfType<T extends ControlSurfaceEvent>(type: ControlSurfaceEventTypeId): T|undefined`
 
 
 Returns the first event in this group of given type id.
 - *param* `type` &mdash; [ControlSurfaceEventTypeId **&#x1f875;**](#type-controlsurfaceeventtypeid-typeof-controlsurfaceeventtyperaw-controlsurfaceeventtypename)
 
 
-<div id="geteventoftypename-type-controlsurfaceeventtypename"></div><!-- alias: geteventoftypename -->
+<div id="geteventoftypename-t-extends-controlsurfaceevent-type-controlsurfaceeventtypename-t-undefined"></div><!-- alias: geteventoftypename -->
 
-### `getEventOfTypeName(type: ControlSurfaceEventTypeName)`
+### `getEventOfTypeName<T extends ControlSurfaceEvent>(type: ControlSurfaceEventTypeName): T|undefined`
 
 
 Returns the first event in this group of given type name.
 - *param* `type` &mdash; [ControlSurfaceEventTypeName **&#x1f875;**](#type-controlsurfaceeventtypename-keyof-typeof-controlsurfaceeventtyperaw)
 
 
-<div id="geteventsoftype-type-controlsurfaceeventtypeid"></div><!-- alias: geteventsoftype -->
+<div id="geteventsoftype-t-extends-controlsurfaceevent-type-controlsurfaceeventtypeid-t-undefined"></div><!-- alias: geteventsoftype -->
 
-### `getEventsOfType(type: ControlSurfaceEventTypeId)`
+### `getEventsOfType<T extends ControlSurfaceEvent>(type: ControlSurfaceEventTypeId): T[]|undefined`
 
 
 Returns all events in this group of given type id.
 - *param* `type` &mdash; [ControlSurfaceEventTypeId **&#x1f875;**](#type-controlsurfaceeventtypeid-typeof-controlsurfaceeventtyperaw-controlsurfaceeventtypename)
 
 
-<div id="geteventsoftypename-type-controlsurfaceeventtypename"></div><!-- alias: geteventsoftypename -->
+<div id="geteventsoftypename-t-extends-controlsurfaceevent-type-controlsurfaceeventtypename-t-undefined"></div><!-- alias: geteventsoftypename -->
 
-### `getEventsOfTypeName(type: ControlSurfaceEventTypeName)`
+### `getEventsOfTypeName<T extends ControlSurfaceEvent>(type: ControlSurfaceEventTypeName): T[]|undefined`
 
 
 Returns all events in this group of given type name.
@@ -340,7 +339,7 @@ Returns all events in this group of given type name.
 ### `getEvents(): ControlSurfaceEvent[]`
 
 
-Returns the [ControlSurfaceEvent **&#x1f875;**](#abstract-class-controlsurfaceevent-t-any)s making up this group.
+Returns the [ControlSurfaceEvent **&#x1f875;**](#class-controlsurfaceevent)s making up this group.
 
 
 <div id="setevents-events-controlsurfaceevent"></div><!-- alias: setevents -->
@@ -348,7 +347,7 @@ Returns the [ControlSurfaceEvent **&#x1f875;**](#abstract-class-controlsurfaceev
 ### `setEvents(events: ControlSurfaceEvent[])`
 
 
-Sets the [ControlSurfaceEvent **&#x1f875;**](#abstract-class-controlsurfaceevent-t-any)s making up this group.
+Sets the [ControlSurfaceEvent **&#x1f875;**](#class-controlsurfaceevent)s making up this group.
 
 
 
@@ -405,12 +404,12 @@ Returns the ID for a given event name, or `undefined`
 
 *transformed Javadoc from src/control-surface-event.ts*
 
-<div id="abstract-class-controlsurfaceevent-t-any"></div><!-- alias: controlsurfaceevent -->
+<div id="class-controlsurfaceevent"></div><!-- alias: controlsurfaceevent -->
 
-## `abstract class ControlSurfaceEvent<T = any>`
+## `class ControlSurfaceEvent`
 
 
-Class for events.
+Base class for events.
 
 
 <div id="type-number"></div><!-- alias: type -->
@@ -429,51 +428,43 @@ Numeric [ControlSurfaceEventType **&#x1f875;**](#const-controlsurfaceeventtype).
 Name of [ControlSurfaceEventType **&#x1f875;**](#const-controlsurfaceeventtype). Readonly.
 
 
-<div id="abstract-getbinary-arraybuffer"></div><!-- alias: getbinary -->
+<div id="getbinary"></div><!-- alias: getbinary -->
 
-### `abstract getBinary(): ArrayBuffer`
-
-
-Creates the binary data for this event and returns it.
+### `getBinary()`
 
 
-<div id="abstract-setbinary-buffer-arraybuffer-void"></div><!-- alias: setbinary -->
-
-### `abstract setBinary(buffer: ArrayBuffer): void`
+Returns this event's binary data.
 
 
-Sets this event's values from binary data.
+<div id="setbinary-buffer-arraybuffer"></div><!-- alias: setbinary -->
+
+### `setBinary(buffer: ArrayBuffer)`
+
+
+Sets this event's binary data.
 - *param* `buffer` &mdash; Binary data.
 
 
-<div id="static-create-type-number-value-string-arraybuffer"></div><!-- alias: create -->
+<div id="static-create-type-number-value-arraybuffer"></div><!-- alias: create -->
 
-### `static create(type: number, value?: string | ArrayBuffer)`
+### `static create(type: number, value?: ArrayBuffer)`
 
 
 Factory function to create a new specific ControlSurfaceEvent.
 - *param* `type` &mdash; ControlSurfaceEventType.
 
 
-<div id="class-controlsurfacebinaryevent-extends-controlsurfaceevent-arraybuffer"></div><!-- alias: controlsurfacebinaryevent -->
+<div id="class-controlsurfacestringevent-extends-controlsurfaceevent"></div><!-- alias: controlsurfacestringevent -->
 
-## `class ControlSurfaceBinaryEvent extends ControlSurfaceEvent<ArrayBuffer>`
-
-
-Event with binary value data.
-
-
-<div id="class-controlsurfacestringevent-extends-controlsurfaceevent-string"></div><!-- alias: controlsurfacestringevent -->
-
-## `class ControlSurfaceStringEvent extends ControlSurfaceEvent<string>`
+## `class ControlSurfaceStringEvent extends ControlSurfaceEvent`
 
 
 Event with string value data.
 
 
-<div id="class-controlsurfaceenablecontrolevent-extends-controlsurfacebinaryevent"></div><!-- alias: controlsurfaceenablecontrolevent -->
+<div id="class-controlsurfaceenablecontrolevent-extends-controlsurfaceevent"></div><!-- alias: controlsurfaceenablecontrolevent -->
 
-## `class ControlSurfaceEnableControlEvent extends ControlSurfaceBinaryEvent`
+## `class ControlSurfaceEnableControlEvent extends ControlSurfaceEvent`
 
 
 Describes how a control is exposed. Enabled controls will have at least one of these events.
@@ -573,7 +564,7 @@ Controls on this surface.
 Creates the binary data for this surface and returns it.
 
 
-<div id="setbinary-buffer-arraybuffer"></div><!-- alias: setbinary -->
+<div id="setbinary-buffer-arraybuffer--2"></div><!-- alias: setbinary -->
 
 ### `setBinary(buffer: ArrayBuffer)`
 

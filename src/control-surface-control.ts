@@ -1,4 +1,4 @@
-import { ControlSurfaceEnableControlEvent, ControlSurfaceEvent, ControlSurfaceStringEvent } from "./control-surface-event";
+import { ControlSurfaceControlDimensionsEvent, ControlSurfaceEnableControlEvent, ControlSurfaceEvent, ControlSurfaceStringEvent } from "./control-surface-event";
 import { ControlSurfaceEventGroup } from "./control-surface-event-group";
 import { ControlSurfaceEventType } from "./control-surface-event-type";
 
@@ -25,7 +25,7 @@ export class ControlSurfaceControl extends ControlSurfaceEventGroup {
   /**
    * Dimension event.
    */
-  dimensions?: ControlSurfaceEvent
+  dimensions?: ControlSurfaceControlDimensionsEvent
   /**
    * ILControl event.
    */
@@ -56,7 +56,7 @@ export class ControlSurfaceControl extends ControlSurfaceEventGroup {
     super.setEvents(events)
     this.start = this.getEventOfType(ControlSurfaceEventType.StartControl)
     this.end = this.getEventOfType(ControlSurfaceEventType.EndControl)
-    this.enable = this.getEventsOfType(ControlSurfaceEventType.EnableControl) as ControlSurfaceEnableControlEvent[]
+    this.enable = this.getEventsOfType(ControlSurfaceEventType.EnableControl)
     this.name = this.getEventOfType(ControlSurfaceEventType.Name)
     this.dimensions = this.getEventOfType(ControlSurfaceEventType.Dimensions)
     this.ILControl = this.getEventOfType(ControlSurfaceEventType.ILControl)

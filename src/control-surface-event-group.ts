@@ -11,32 +11,32 @@ export class ControlSurfaceEventGroup {
    * Returns the first event in this group of given type id.
    * @param type [[ControlSurfaceEventTypeId]]
    */
-  getEventOfType(type: ControlSurfaceEventTypeId) {
-    return this.events.find((e) => e.type === type)
+  getEventOfType<T extends ControlSurfaceEvent>(type: ControlSurfaceEventTypeId): T|undefined {
+    return this.events.find((e) => e.type === type) as T
   }
 
   /**
    * Returns the first event in this group of given type name.
    * @param type [[ControlSurfaceEventTypeName]]
    */
-  getEventOfTypeName(type: ControlSurfaceEventTypeName) {
-    return this.events.find((e) => e.typeName === type)
+  getEventOfTypeName<T extends ControlSurfaceEvent>(type: ControlSurfaceEventTypeName): T|undefined {
+    return this.events.find((e) => e.typeName === type) as T
   }
 
   /**
    * Returns all events in this group of given type id.
    * @param type [[ControlSurfaceEventTypeId]]
    */
-  getEventsOfType(type: ControlSurfaceEventTypeId) {
-    return this.events.filter((e) => e.type === type)
+  getEventsOfType<T extends ControlSurfaceEvent>(type: ControlSurfaceEventTypeId): T[]|undefined {
+    return this.events.filter((e) => e.type === type) as T[]
   }
 
   /**
    * Returns all events in this group of given type name.
    * @param type [[ControlSurfaceEventTypeName]]
    */
-  getEventsOfTypeName(type: ControlSurfaceEventTypeName) {
-    return this.events.filter((e) => e.typeName === type)
+  getEventsOfTypeName<T extends ControlSurfaceEvent>(type: ControlSurfaceEventTypeName): T[]|undefined {
+    return this.events.filter((e) => e.typeName === type) as T[]
   }
 
   /**

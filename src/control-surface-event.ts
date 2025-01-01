@@ -2,9 +2,9 @@ import { ArrayBufferStream } from "@holzchopf/array-buffer-stream"
 import { ControlSurfaceEventType } from "./control-surface-event-type"
 
 /**
- * Class for events.
+ * Base class for events.
  */
-export abstract class ControlSurfaceEvent<T = any> {
+export class ControlSurfaceEvent {
   /**
    * Numeric [[ControlSurfaceEventType]].
    */
@@ -16,116 +16,73 @@ export abstract class ControlSurfaceEvent<T = any> {
     return ControlSurfaceEventType.name(this.type)
   }
 
-  // /**
-  //  * Event value. Data type varies by event type.
-  //  */
-  // value?: T
+  protected buffer: ArrayBuffer
+  protected view: DataView
 
-  protected value: T
-
-  getValue(): T {
-    return this.value
-  }
-  setValue(value: T) {
-    this.value = value
-  }
-
-  constructor(type: number, value: T) {
+  constructor(type: number, buffer?: ArrayBuffer) {
     this.type = type
-    this.value = value
+    this.buffer = buffer ?? new ArrayBuffer(0)
+    this.view = new DataView(this.buffer)
   }
 
   /**
-   * Creates the binary data for this event and returns it.
+   * Returns this event's binary data.
    */
-  abstract getBinary(): ArrayBuffer
+  getBinary() {
+    return this.buffer
+  }
   /**
-   * Sets this event's values from binary data.
+   * Sets this event's binary data.
    * @param buffer Binary data.
    */
-  abstract setBinary(buffer: ArrayBuffer): void
+  setBinary(buffer: ArrayBuffer) {
+    this.buffer = buffer
+    this.view = new DataView(this.buffer)
+  }
 
   /**
    * Factory function to create a new specific ControlSurfaceEvent.
    * @param type ControlSurfaceEventType.
    */
-  static create(type: number, value?: string | ArrayBuffer) {
+  static create(type: number, value?: ArrayBuffer) {
     switch (type) {
       case 2000:
-        return new ControlSurfaceSettingsEvent(type, value as ArrayBuffer)
+        return new ControlSurfaceSettingsEvent(type, value)
       case 2002:
-        return new ControlSurfaceDimensionsEvent(type, value as ArrayBuffer)
+        return new ControlSurfaceDimensionsEvent(type, value)
       case 2100:
-        return new ControlSurfaceStartControlEvent(type, value as ArrayBuffer)
+        return new ControlSurfaceStartControlEvent(type, value)
       case 2102:
-        return new ControlSurfaceEnableControlEvent(type, value as ArrayBuffer)
+        return new ControlSurfaceEnableControlEvent(type, value)
       case 2104:
-        return new ControlSurfaceControlDimensionsEvent(type, value as ArrayBuffer)
+        return new ControlSurfaceControlDimensionsEvent(type, value)
       case 2103:
       case 2105:
       case 2106:
       case 2107:
-        if (typeof value === 'string') {
-          return new ControlSurfaceStringEvent(type, value)
-        } else {
-          const ev = new ControlSurfaceStringEvent(type)
-          if (value) {
-            ev.setBinary(value)
-          }
-          return ev
-        }
+        return new ControlSurfaceStringEvent(type, value)
       default:
-        return new ControlSurfaceBinaryEvent(type, value as ArrayBuffer)
+        return new ControlSurfaceEvent(type, value)
     }
-  }
-}
-
-/**
- * Event with binary value data.
- */
-export class ControlSurfaceBinaryEvent extends ControlSurfaceEvent<ArrayBuffer> {
-  protected view: DataView
-
-  constructor(type: number, value?: ArrayBuffer) {
-    super(type, value ?? new ArrayBuffer(0))
-    this.view = new DataView(this.value)
-  }
-
-  setValue(value: ArrayBuffer) {
-    this.value = value
-    this.view = new DataView(this.value)
-  }
-
-  getBinary(): ArrayBuffer {
-    return this.value ?? new ArrayBuffer(0)
-  }
-  setBinary(buffer: ArrayBuffer) {
-    this.value = buffer
-    this.view = new DataView(this.value)
   }
 }
 
 /**
  * Event with string value data.
  */
-export class ControlSurfaceStringEvent extends ControlSurfaceEvent<string> {
-
-  constructor(type: number, value?: string) {
-    super(type, value ?? '')
+export class ControlSurfaceStringEvent extends ControlSurfaceEvent {
+  getValue(): string {
+    return new TextDecoder('utf-16le').decode(this.buffer)
   }
 
-  getBinary(): ArrayBuffer {
-    const value = this.value ?? ''
+  setValue(value: string) {
     const stream = new ArrayBufferStream(new ArrayBuffer(value.length * 2))
     stream.writeUtf16String(value, true)
-    return stream.buffer
-  }
-  setBinary(buffer: ArrayBuffer) {
-    this.value = new TextDecoder('utf-16le').decode(buffer)
+    this.setBinary(stream.buffer)
   }
 }
 
-export class ControlSurfaceSettingsEvent extends ControlSurfaceBinaryEvent {
+export class ControlSurfaceSettingsEvent extends ControlSurfaceEvent {
   
   constructor(type: number, value?: ArrayBuffer) {
     super(type, value ?? new ArrayBuffer(64))
@@ -177,7 +134,7 @@ export class ControlSurfaceSettingsEvent extends ControlSurfaceBinaryEvent {
   }
 }
 
-export class ControlSurfaceDimensionsEvent extends ControlSurfaceBinaryEvent {
+export class ControlSurfaceDimensionsEvent extends ControlSurfaceEvent {
   
   constructor(type: number, value?: ArrayBuffer) {
     super(type, value ?? new ArrayBuffer(8))
@@ -198,7 +155,7 @@ export class ControlSurfaceDimensionsEvent extends ControlSurfaceBinaryEvent {
   }
 }
 
-export class ControlSurfaceStartControlEvent extends ControlSurfaceBinaryEvent {
+export class ControlSurfaceStartControlEvent extends ControlSurfaceEvent {
   
   constructor(type: number, value?: ArrayBuffer) {
     super(type, value ?? new ArrayBuffer(32))
@@ -215,7 +172,7 @@ export class ControlSurfaceStartControlEvent extends ControlSurfaceBinaryEvent {
 /**
  * Describes how a control is exposed. Enabled controls will have at least one of these events.
  */
-export class ControlSurfaceEnableControlEvent extends ControlSurfaceBinaryEvent {
+export class ControlSurfaceEnableControlEvent extends ControlSurfaceEvent {
 
   constructor(type: number, value?: ArrayBuffer) {
     super(type, value ?? new ArrayBuffer(12))
@@ -261,7 +218,7 @@ export class ControlSurfaceEnableControlEvent extends ControlSurfaceBinaryEvent 
   }
 }
 
-export class ControlSurfaceControlDimensionsEvent extends ControlSurfaceBinaryEvent {
+export class ControlSurfaceControlDimensionsEvent extends ControlSurfaceEvent {
   
   constructor(type: number, value?: ArrayBuffer) {
     super(type, value ?? new ArrayBuffer(16))
