@@ -227,6 +227,50 @@ export class ControlSurfaceControlDimensionsEvent extends ControlSurfaceEvent {
   }
 }
 
+export class ControlSurfaceControlDefinitionsEvent extends ControlSurfaceStringEvent {
+  getProperty(key: string): string|undefined {
+    const defs = this.getValue().split('\r\n')
+    // find the line for key
+    const def = defs.find((d) => d.startsWith(`  ${key} = `))
+    if (!def) return undefined
+    // extract value
+    return def.split(' = ')[1]
+  }
+  private writeProperty(key: string, value: string, append: boolean) {
+    let defs = this.getValue().split('\r\n')
+    const defStart = defs.splice(0, 1)
+    const defEnd = defs.splice(-1, 1)
+    // find the line for key and update value
+    let found = false
+    defs = defs.map((d) => {
+      if (!found && d.startsWith(`  ${key} = `)) {
+        found = true
+        return d.split(' = ')[0] + ' = ' + value
+      }
+      return d
+    })
+    // append key value pair if it wasn't found
+    if (!found && append) {
+      defs.push(`  ${key} = ${value}`)
+      found = true
+    }
+    // build definitions string anew
+    if (found) {
+      this.setValue(
+        [...defStart, ...defs, ...defEnd].join('\r\n')
+      )
+    }
+    return found
+  }
+
+  setProperty(key: string, value: string) {
+    this.writeProperty(key, value, true)
+  }
+  updateProperty(key: string, value: string) {
+    return this.writeProperty(key, value, false)
+  }
+}
+
 /**
  * Factory function to create a new specific ControlSurfaceEvent.
  * @param type ControlSurfaceEventType.
@@ -245,10 +289,11 @@ export function createEvent(type: number, value?: ArrayBuffer) {
     case 2104:
       return new ControlSurfaceControlDimensionsEvent(type, value)
     case 2103:
+      return new ControlSurfaceStringEvent(type, value)
     case 2105:
     case 2106:
     case 2107:
-      return new ControlSurfaceStringEvent(type, value)
+      return new ControlSurfaceControlDefinitionsEvent(type, value)
     default:
       return new ControlSurfaceEvent(type, value)
   }

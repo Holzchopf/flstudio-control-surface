@@ -1,4 +1,4 @@
-import { ControlSurfaceControlDimensionsEvent, ControlSurfaceEnableControlEvent, ControlSurfaceEvent, ControlSurfaceStartControlEvent, ControlSurfaceStringEvent, createEvent } from "./control-surface-event";
+import { ControlSurfaceControlDefinitionsEvent, ControlSurfaceControlDimensionsEvent, ControlSurfaceEnableControlEvent, ControlSurfaceEvent, ControlSurfaceStartControlEvent, ControlSurfaceStringEvent, createEvent } from "./control-surface-event";
 import { ControlSurfaceEventGroup } from "./control-surface-event-group";
 import { ControlSurfaceEventType } from "./control-surface-event-type";
 
@@ -29,15 +29,15 @@ export class ControlSurfaceControl extends ControlSurfaceEventGroup {
   /**
    * ILControl event.
    */
-  ILControl?: ControlSurfaceStringEvent
+  ILControl?: ControlSurfaceControlDefinitionsEvent
   /**
    * Color event.
    */
-  colors?: ControlSurfaceStringEvent
+  colors?: ControlSurfaceControlDefinitionsEvent
   /**
    * Properties event.
    */
-  properties?: ControlSurfaceStringEvent
+  properties?: ControlSurfaceControlDefinitionsEvent
 
   getEvents(): ControlSurfaceEvent[] {
     const prototype = [

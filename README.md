@@ -24,9 +24,9 @@ This file was auto-generated with `zdoccer.js` 2.0.3
       - [`enable?: ControlSurfaceEnableControlEvent[]`](#enable-controlsurfaceenablecontrolevent)
       - [`name?: ControlSurfaceStringEvent`](#name-controlsurfacestringevent)
       - [`dimensions?: ControlSurfaceControlDimensionsEvent`](#dimensions-controlsurfacecontroldimensionsevent)
-      - [`ILControl?: ControlSurfaceStringEvent`](#ilcontrol-controlsurfacestringevent)
-      - [`colors?: ControlSurfaceStringEvent`](#colors-controlsurfacestringevent)
-      - [`properties?: ControlSurfaceStringEvent`](#properties-controlsurfacestringevent)
+      - [`ILControl?: ControlSurfaceControlDefinitionsEvent`](#ilcontrol-controlsurfacecontroldefinitionsevent)
+      - [`colors?: ControlSurfaceControlDefinitionsEvent`](#colors-controlsurfacecontroldefinitionsevent)
+      - [`properties?: ControlSurfaceControlDefinitionsEvent`](#properties-controlsurfacecontroldefinitionsevent)
     - [`class ControlSurfaceEventGroup`](#class-controlsurfaceeventgroup)
       - [`getEventOfType<T extends ControlSurfaceEvent>(type: ControlSurfaceEventTypeId): T|undefined`](#geteventoftype-t-extends-controlsurfaceevent-type-controlsurfaceeventtypeid-t-undefined)
       - [`getEventOfTypeName<T extends ControlSurfaceEvent>(type: ControlSurfaceEventTypeName): T|undefined`](#geteventoftypename-t-extends-controlsurfaceevent-type-controlsurfaceeventtypename-t-undefined)
@@ -260,25 +260,25 @@ Name event.
 Dimension event.
 
 
-<div id="ilcontrol-controlsurfacestringevent"></div><!-- alias: ilcontrol -->
+<div id="ilcontrol-controlsurfacecontroldefinitionsevent"></div><!-- alias: ilcontrol -->
 
-### `ILControl?: ControlSurfaceStringEvent`
+### `ILControl?: ControlSurfaceControlDefinitionsEvent`
 
 
 ILControl event.
 
 
-<div id="colors-controlsurfacestringevent"></div><!-- alias: colors -->
+<div id="colors-controlsurfacecontroldefinitionsevent"></div><!-- alias: colors -->
 
-### `colors?: ControlSurfaceStringEvent`
+### `colors?: ControlSurfaceControlDefinitionsEvent`
 
 
 Color event.
 
 
-<div id="properties-controlsurfacestringevent"></div><!-- alias: properties -->
+<div id="properties-controlsurfacecontroldefinitionsevent"></div><!-- alias: properties -->
 
-### `properties?: ControlSurfaceStringEvent`
+### `properties?: ControlSurfaceControlDefinitionsEvent`
 
 
 Properties event.
