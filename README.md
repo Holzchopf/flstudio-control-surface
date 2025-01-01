@@ -58,6 +58,9 @@ This file was auto-generated with `zdoccer.js` 2.0.3
       - [`getIndex(): number`](#getindex-number)
       - [`setIndex(value: number)`](#setindex-value-number)
     - [`function createEvent(type: number, value?: ArrayBuffer)`](#function-createevent-type-number-value-arraybuffer)
+    - [`class ControlSurfaceOptions extends ControlSurfaceEventGroup`](#class-controlsurfaceoptions-extends-controlsurfaceeventgroup)
+      - [`settings?: ControlSurfaceSettingsEvent`](#settings-controlsurfacesettingsevent)
+      - [`dimensions?: ControlSurfaceDimensionsEvent`](#dimensions-controlsurfacedimensionsevent)
     - [`class ControlSurface`](#class-controlsurface)
       - [`version: number = 1`](#version-number-1)
       - [`options = new ControlSurfaceOptions()`](#options-new-controlsurfaceoptions)
@@ -570,6 +573,36 @@ Sets the control's list index.
 Factory function to create a new specific ControlSurfaceEvent.
 - *param* `type` &mdash; ControlSurfaceEventType.
 - *param* `value` &mdash; Binary data for this event.
+
+
+
+
+---
+
+*transformed Javadoc from src/control-surface-options.ts*
+
+<div id="class-controlsurfaceoptions-extends-controlsurfaceeventgroup"></div><!-- alias: controlsurfaceoptions -->
+
+## `class ControlSurfaceOptions extends ControlSurfaceEventGroup`
+
+
+Class representing control surface options. Extends [ControlSurfaceEventGroup **&#x1f875;**](#class-controlsurfaceeventgroup).
+
+
+<div id="settings-controlsurfacesettingsevent"></div><!-- alias: settings -->
+
+### `settings?: ControlSurfaceSettingsEvent`
+
+
+Settings event.
+
+
+<div id="dimensions-controlsurfacedimensionsevent"></div><!-- alias: dimensions -->
+
+### `dimensions?: ControlSurfaceDimensionsEvent`
+
+
+Settings event.
 
 
 
