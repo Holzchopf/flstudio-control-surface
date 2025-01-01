@@ -1,5 +1,5 @@
 import { ArrayBufferStream, joinArrayBuffers } from "@holzchopf/array-buffer-stream"
-import { ControlSurfaceEvent } from "./control-surface-event"
+import { ControlSurfaceEvent, createEvent } from "./control-surface-event"
 import { ControlSurfaceOptions } from "./control-surface-options"
 import { ControlSurfaceControl } from "./control-surface-control"
 
@@ -86,7 +86,7 @@ export class ControlSurface {
       const type = stream.readUint32(true)
       const size = Number(stream.readBigUint64(true))
       const bytes = stream.readBytes(size)
-      const event = ControlSurfaceEvent.create(type, bytes)
+      const event = createEvent(type, bytes)
       events.push(event)
     }
 

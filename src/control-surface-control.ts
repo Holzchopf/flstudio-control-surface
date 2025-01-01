@@ -1,4 +1,4 @@
-import { ControlSurfaceControlDimensionsEvent, ControlSurfaceEnableControlEvent, ControlSurfaceEvent, ControlSurfaceStringEvent } from "./control-surface-event";
+import { ControlSurfaceControlDimensionsEvent, ControlSurfaceEnableControlEvent, ControlSurfaceEvent, ControlSurfaceStringEvent, createEvent } from "./control-surface-event";
 import { ControlSurfaceEventGroup } from "./control-surface-event-group";
 import { ControlSurfaceEventType } from "./control-surface-event-type";
 
@@ -41,14 +41,14 @@ export class ControlSurfaceControl extends ControlSurfaceEventGroup {
 
   getEvents(): ControlSurfaceEvent[] {
     const prototype = [
-      this.start ?? ControlSurfaceEvent.create(ControlSurfaceEventType.StartControl),
+      this.start ?? createEvent(ControlSurfaceEventType.StartControl),
       this.name,
       this.dimensions,
       ...(this.enable ?? []),
       this.ILControl,
       this.colors,
       this.properties,
-      this.end ?? ControlSurfaceEvent.create(ControlSurfaceEventType.EndControl),
+      this.end ?? createEvent(ControlSurfaceEventType.EndControl),
     ]
     return prototype.filter((event) => !!event) as ControlSurfaceEvent[]
   }

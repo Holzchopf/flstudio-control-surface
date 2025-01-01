@@ -39,32 +39,6 @@ export class ControlSurfaceEvent {
     this.buffer = buffer
     this.view = new DataView(this.buffer)
   }
-
-  /**
-   * Factory function to create a new specific ControlSurfaceEvent.
-   * @param type ControlSurfaceEventType.
-   */
-  static create(type: number, value?: ArrayBuffer) {
-    switch (type) {
-      case 2000:
-        return new ControlSurfaceSettingsEvent(type, value)
-      case 2002:
-        return new ControlSurfaceDimensionsEvent(type, value)
-      case 2100:
-        return new ControlSurfaceStartControlEvent(type, value)
-      case 2102:
-        return new ControlSurfaceEnableControlEvent(type, value)
-      case 2104:
-        return new ControlSurfaceControlDimensionsEvent(type, value)
-      case 2103:
-      case 2105:
-      case 2106:
-      case 2107:
-        return new ControlSurfaceStringEvent(type, value)
-      default:
-        return new ControlSurfaceEvent(type, value)
-    }
-  }
 }
 
 /**
@@ -250,5 +224,32 @@ export class ControlSurfaceControlDimensionsEvent extends ControlSurfaceEvent {
   }
   setHeight(value: number) {
     this.view.setFloat32(12, value, true)
+  }
+}
+
+/**
+ * Factory function to create a new specific ControlSurfaceEvent.
+ * @param type ControlSurfaceEventType.
+ * @param value Binary data for this event.
+ */
+export function createEvent(type: number, value?: ArrayBuffer) {
+  switch (type) {
+    case 2000:
+      return new ControlSurfaceSettingsEvent(type, value)
+    case 2002:
+      return new ControlSurfaceDimensionsEvent(type, value)
+    case 2100:
+      return new ControlSurfaceStartControlEvent(type, value)
+    case 2102:
+      return new ControlSurfaceEnableControlEvent(type, value)
+    case 2104:
+      return new ControlSurfaceControlDimensionsEvent(type, value)
+    case 2103:
+    case 2105:
+    case 2106:
+    case 2107:
+      return new ControlSurfaceStringEvent(type, value)
+    default:
+      return new ControlSurfaceEvent(type, value)
   }
 }

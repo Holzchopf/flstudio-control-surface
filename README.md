@@ -44,7 +44,6 @@ This file was auto-generated with `zdoccer.js` 2.0.3
       - [`get typeName()`](#get-typename)
       - [`getBinary()`](#getbinary)
       - [`setBinary(buffer: ArrayBuffer)`](#setbinary-buffer-arraybuffer)
-      - [`static create(type: number, value?: ArrayBuffer)`](#static-create-type-number-value-arraybuffer)
     - [`class ControlSurfaceStringEvent extends ControlSurfaceEvent`](#class-controlsurfacestringevent-extends-controlsurfaceevent)
     - [`class ControlSurfaceEnableControlEvent extends ControlSurfaceEvent`](#class-controlsurfaceenablecontrolevent-extends-controlsurfaceevent)
       - [`getCurrent(): number`](#getcurrent-number)
@@ -53,6 +52,7 @@ This file was auto-generated with `zdoccer.js` 2.0.3
       - [`setDefault(value: number)`](#setdefault-value-number)
       - [`getIndex(): number`](#getindex-number)
       - [`setIndex(value: number)`](#setindex-value-number)
+    - [`function createEvent(type: number, value?: ArrayBuffer)`](#function-createevent-type-number-value-arraybuffer)
     - [`class ControlSurface`](#class-controlsurface)
       - [`version: number = 1`](#version-number-1)
       - [`options = new ControlSurfaceOptions()`](#options-new-controlsurfaceoptions)
@@ -445,15 +445,6 @@ Sets this event's binary data.
 - *param* `buffer` &mdash; Binary data.
 
 
-<div id="static-create-type-number-value-arraybuffer"></div><!-- alias: create -->
-
-### `static create(type: number, value?: ArrayBuffer)`
-
-
-Factory function to create a new specific ControlSurfaceEvent.
-- *param* `type` &mdash; ControlSurfaceEventType.
-
-
 <div id="class-controlsurfacestringevent-extends-controlsurfaceevent"></div><!-- alias: controlsurfacestringevent -->
 
 ## `class ControlSurfaceStringEvent extends ControlSurfaceEvent`
@@ -516,6 +507,16 @@ Returns the control's list index.
 
 
 Sets the control's list index.
+
+
+<div id="function-createevent-type-number-value-arraybuffer"></div><!-- alias: createevent -->
+
+## `function createEvent(type: number, value?: ArrayBuffer)`
+
+
+Factory function to create a new specific ControlSurfaceEvent.
+- *param* `type` &mdash; ControlSurfaceEventType.
+- *param* `value` &mdash; Binary data for this event.
 
 
 
