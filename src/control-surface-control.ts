@@ -1,4 +1,4 @@
-import { ControlSurfaceControlDimensionsEvent, ControlSurfaceEnableControlEvent, ControlSurfaceEvent, ControlSurfaceStringEvent, createEvent } from "./control-surface-event";
+import { ControlSurfaceControlDimensionsEvent, ControlSurfaceEnableControlEvent, ControlSurfaceEvent, ControlSurfaceStartControlEvent, ControlSurfaceStringEvent, createEvent } from "./control-surface-event";
 import { ControlSurfaceEventGroup } from "./control-surface-event-group";
 import { ControlSurfaceEventType } from "./control-surface-event-type";
 
@@ -9,7 +9,7 @@ export class ControlSurfaceControl extends ControlSurfaceEventGroup {
   /**
    * Start event.
    */
-  start?: ControlSurfaceEvent
+  start?: ControlSurfaceStartControlEvent
   /**
    * End event.
    */

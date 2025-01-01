@@ -19,7 +19,7 @@ This file was auto-generated with `zdoccer.js` 2.0.3
         - [2106 - ILControl, Colors](#2106-ilcontrol-colors)
         - [2107 - ILControl, Properties](#2107-ilcontrol-properties)
     - [`class ControlSurfaceControl extends ControlSurfaceEventGroup`](#class-controlsurfacecontrol-extends-controlsurfaceeventgroup)
-      - [`start?: ControlSurfaceEvent`](#start-controlsurfaceevent)
+      - [`start?: ControlSurfaceStartControlEvent`](#start-controlsurfacestartcontrolevent)
       - [`end?: ControlSurfaceEvent`](#end-controlsurfaceevent)
       - [`enable?: ControlSurfaceEnableControlEvent[]`](#enable-controlsurfaceenablecontrolevent)
       - [`name?: ControlSurfaceStringEvent`](#name-controlsurfacestringevent)
@@ -220,9 +220,9 @@ The value of this event is a `utf-16le` string. It typically contains the proper
 Class representing a control on the surface. Extends [ControlSurfaceEventGroup **&#x1f875;**](#class-controlsurfaceeventgroup).
 
 
-<div id="start-controlsurfaceevent"></div><!-- alias: start -->
+<div id="start-controlsurfacestartcontrolevent"></div><!-- alias: start -->
 
-### `start?: ControlSurfaceEvent`
+### `start?: ControlSurfaceStartControlEvent`
 
 
 Start event.
