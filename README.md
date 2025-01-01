@@ -18,6 +18,11 @@ This file was auto-generated with `zdoccer.js` 2.0.3
         - [2105 - ILControl](#2105-ilcontrol)
         - [2106 - ILControl, Colors](#2106-ilcontrol-colors)
         - [2107 - ILControl, Properties](#2107-ilcontrol-properties)
+    - [`type ControlSurfaceControlTypeName = keyof typeof ControlSurfaceControlTypeRaw`](#type-controlsurfacecontroltypename-keyof-typeof-controlsurfacecontroltyperaw)
+    - [`type ControlSurfaceControlTypeId = typeof ControlSurfaceControlTypeRaw[ControlSurfaceControlTypeName]`](#type-controlsurfacecontroltypeid-typeof-controlsurfacecontroltyperaw-controlsurfacecontroltypename)
+    - [`const ControlSurfaceControlType =`](#const-controlsurfacecontroltype)
+      - [`name: (id: number): ControlSurfaceControlTypeName | 'unknown' =>`](#name-id-number-controlsurfacecontroltypename-unknown)
+      - [`byName: (name: string): ControlSurfaceControlTypeId | undefined =>`](#byname-name-string-controlsurfacecontroltypeid-undefined)
     - [`class ControlSurfaceControl extends ControlSurfaceEventGroup`](#class-controlsurfacecontrol-extends-controlsurfaceeventgroup)
       - [`start?: ControlSurfaceStartControlEvent`](#start-controlsurfacestartcontrolevent)
       - [`end?: ControlSurfaceEvent`](#end-controlsurfaceevent)
@@ -206,6 +211,54 @@ The value of this event is a `utf-16le` string. It typically contains the color 
 #### 2107 - ILControl, Properties
 
 The value of this event is a `utf-16le` string. It typically contains the property definitions from the ILControl event.
+
+
+---
+
+*transformed Javadoc from src/control-surface-control-type.ts*
+
+<div id="type-controlsurfacecontroltypename-keyof-typeof-controlsurfacecontroltyperaw"></div><!-- alias: controlsurfacecontroltypename -->
+
+## `type ControlSurfaceControlTypeName = keyof typeof ControlSurfaceControlTypeRaw`
+
+
+Known control type names.
+
+
+<div id="type-controlsurfacecontroltypeid-typeof-controlsurfacecontroltyperaw-controlsurfacecontroltypename"></div><!-- alias: controlsurfacecontroltypeid -->
+
+## `type ControlSurfaceControlTypeId = typeof ControlSurfaceControlTypeRaw[ControlSurfaceControlTypeName]`
+
+
+Known control type IDs.
+
+
+<div id="const-controlsurfacecontroltype"></div><!-- alias: controlsurfacecontroltype -->
+
+## `const ControlSurfaceControlType =`
+
+
+Types of controls in a [ControlSurfaceStartControlEvent **?**](#start-controlsurfacestartcontrolevent).
+
+
+<div id="name-id-number-controlsurfacecontroltypename-unknown"></div><!-- alias: name -->
+
+### `name: (id: number): ControlSurfaceControlTypeName | 'unknown' =>`
+
+
+Returns the name of a given control type ID, or `'unknown'`.
+- *param* `id` &mdash; Control type ID.
+
+
+<div id="byname-name-string-controlsurfacecontroltypeid-undefined"></div><!-- alias: byname -->
+
+### `byName: (name: string): ControlSurfaceControlTypeId | undefined =>`
+
+
+Returns the ID for a given control type name, or `undefined`
+- *param* `name` &mdash; Control type name.
+
+
 
 
 ---

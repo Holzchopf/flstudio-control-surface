@@ -1,5 +1,6 @@
 import { ArrayBufferStream } from "@holzchopf/array-buffer-stream"
 import { ControlSurfaceEventType } from "./control-surface-event-type"
+import { ControlSurfaceControlType, ControlSurfaceControlTypeId } from "./control-surface-control-type"
 
 /**
  * Base class for events.
@@ -135,11 +136,15 @@ export class ControlSurfaceStartControlEvent extends ControlSurfaceEvent {
     super(type, value ?? new ArrayBuffer(32))
   }
 
-  getType(): number {
+  getControlType(): number {
     return this.view.getUint32(0, true)
   }
-  setType(value: number) {
+  setControlType(value: number) {
     this.view.setUint32(0, value, true)
+  }
+
+  get controlTypeName() {
+    return ControlSurfaceControlType.name(this.getControlType())
   }
 }
 
