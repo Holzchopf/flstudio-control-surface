@@ -44,20 +44,15 @@ This file was auto-generated with `zdoccer.js` 2.0.3
     - [`const ControlSurfaceEventType =`](#const-controlsurfaceeventtype)
       - [`name: (id: number): ControlSurfaceEventTypeName | 'unknown' =>`](#name-id-number-controlsurfaceeventtypename-unknown)
       - [`byName: (name: string): ControlSurfaceEventTypeId | undefined =>`](#byname-name-string-controlsurfaceeventtypeid-undefined)
-    - [`class ControlSurfaceEvent`](#class-controlsurfaceevent)
+    - [`abstract class ControlSurfaceEvent`](#abstract-class-controlsurfaceevent)
       - [`type: number`](#type-number)
       - [`get typeName()`](#get-typename)
-      - [`getBinary()`](#getbinary)
-      - [`setBinary(buffer: ArrayBuffer)`](#setbinary-buffer-arraybuffer)
+      - [`abstract getBinary(): ArrayBuffer`](#abstract-getbinary-arraybuffer)
+      - [`abstract setBinary(buffer: ArrayBuffer): void`](#abstract-setbinary-buffer-arraybuffer-void)
+    - [`class ControlSurfaceBinaryEvent extends ControlSurfaceEvent`](#class-controlsurfacebinaryevent-extends-controlsurfaceevent)
     - [`class ControlSurfaceStringEvent extends ControlSurfaceEvent`](#class-controlsurfacestringevent-extends-controlsurfaceevent)
     - [`class ControlSurfaceEnableControlEvent extends ControlSurfaceEvent`](#class-controlsurfaceenablecontrolevent-extends-controlsurfaceevent)
-      - [`getCurrent(): number`](#getcurrent-number)
-      - [`setCurrent(value: number)`](#setcurrent-value-number)
-      - [`getDefault(): number`](#getdefault-number)
-      - [`setDefault(value: number)`](#setdefault-value-number)
-      - [`getIndex(): number`](#getindex-number)
-      - [`setIndex(value: number)`](#setindex-value-number)
-    - [`function createEvent(type: number, value?: ArrayBuffer)`](#function-createevent-type-number-value-arraybuffer)
+    - [`function createEvent(type: number, buffer?: ArrayBuffer)`](#function-createevent-type-number-buffer-arraybuffer)
     - [`class ControlSurfaceOptions extends ControlSurfaceEventGroup`](#class-controlsurfaceoptions-extends-controlsurfaceeventgroup)
       - [`settings?: ControlSurfaceSettingsEvent`](#settings-controlsurfacesettingsevent)
       - [`dimensions?: ControlSurfaceDimensionsEvent`](#dimensions-controlsurfacedimensionsevent)
@@ -66,7 +61,7 @@ This file was auto-generated with `zdoccer.js` 2.0.3
       - [`options = new ControlSurfaceOptions()`](#options-new-controlsurfaceoptions)
       - [`controls: ControlSurfaceControl[] = []`](#controls-controlsurfacecontrol)
       - [`getBinary(): ArrayBuffer`](#getbinary-arraybuffer)
-      - [`setBinary(buffer: ArrayBuffer)`](#setbinary-buffer-arraybuffer--2)
+      - [`setBinary(buffer: ArrayBuffer)`](#setbinary-buffer-arraybuffer)
 
 
 ---
@@ -351,7 +346,7 @@ Properties event.
 ## `class ControlSurfaceEventGroup`
 
 
-Class representing a group of [ControlSurfaceEvent **&#x1f875;**](#class-controlsurfaceevent)s.
+Class representing a group of [ControlSurfaceEvent **&#x1f875;**](#abstract-class-controlsurfaceevent)s.
 
 
 <div id="geteventoftype-t-extends-controlsurfaceevent-type-controlsurfaceeventtypeid-t-undefined"></div><!-- alias: geteventoftype -->
@@ -395,7 +390,7 @@ Returns all events in this group of given type name.
 ### `getEvents(): ControlSurfaceEvent[]`
 
 
-Returns the [ControlSurfaceEvent **&#x1f875;**](#class-controlsurfaceevent)s making up this group.
+Returns the [ControlSurfaceEvent **&#x1f875;**](#abstract-class-controlsurfaceevent)s making up this group.
 
 
 <div id="setevents-events-controlsurfaceevent"></div><!-- alias: setevents -->
@@ -403,7 +398,7 @@ Returns the [ControlSurfaceEvent **&#x1f875;**](#class-controlsurfaceevent)s mak
 ### `setEvents(events: ControlSurfaceEvent[])`
 
 
-Sets the [ControlSurfaceEvent **&#x1f875;**](#class-controlsurfaceevent)s making up this group.
+Sets the [ControlSurfaceEvent **&#x1f875;**](#abstract-class-controlsurfaceevent)s making up this group.
 
 
 
@@ -460,9 +455,9 @@ Returns the ID for a given event name, or `undefined`
 
 *transformed Javadoc from src/control-surface-event.ts*
 
-<div id="class-controlsurfaceevent"></div><!-- alias: controlsurfaceevent -->
+<div id="abstract-class-controlsurfaceevent"></div><!-- alias: controlsurfaceevent -->
 
-## `class ControlSurfaceEvent`
+## `abstract class ControlSurfaceEvent`
 
 
 Base class for events.
@@ -484,21 +479,29 @@ Numeric [ControlSurfaceEventType **&#x1f875;**](#const-controlsurfaceeventtype).
 Name of [ControlSurfaceEventType **&#x1f875;**](#const-controlsurfaceeventtype). Readonly.
 
 
-<div id="getbinary"></div><!-- alias: getbinary -->
+<div id="abstract-getbinary-arraybuffer"></div><!-- alias: getbinary -->
 
-### `getBinary()`
+### `abstract getBinary(): ArrayBuffer`
 
 
 Returns this event's binary data.
 
 
-<div id="setbinary-buffer-arraybuffer"></div><!-- alias: setbinary -->
+<div id="abstract-setbinary-buffer-arraybuffer-void"></div><!-- alias: setbinary -->
 
-### `setBinary(buffer: ArrayBuffer)`
+### `abstract setBinary(buffer: ArrayBuffer): void`
 
 
 Sets this event's binary data.
 - *param* `buffer` &mdash; Binary data.
+
+
+<div id="class-controlsurfacebinaryevent-extends-controlsurfaceevent"></div><!-- alias: controlsurfacebinaryevent -->
+
+## `class ControlSurfaceBinaryEvent extends ControlSurfaceEvent`
+
+
+Event with unspecified binary data.
 
 
 <div id="class-controlsurfacestringevent-extends-controlsurfaceevent"></div><!-- alias: controlsurfacestringevent -->
@@ -517,57 +520,9 @@ Event with string value data.
 Describes how a control is exposed. Enabled controls will have at least one of these events.
 
 
-<div id="getcurrent-number"></div><!-- alias: getcurrent -->
+<div id="function-createevent-type-number-buffer-arraybuffer"></div><!-- alias: createevent -->
 
-### `getCurrent(): number`
-
-
-Returns the control's current value. Float, 0 ... 1
-
-
-<div id="setcurrent-value-number"></div><!-- alias: setcurrent -->
-
-### `setCurrent(value: number)`
-
-
-Sets the control's current value. Float, 0 ... 1
-
-
-<div id="getdefault-number"></div><!-- alias: getdefault -->
-
-### `getDefault(): number`
-
-
-Returns the control's default value. Float, 0 ... 1
-
-
-<div id="setdefault-value-number"></div><!-- alias: setdefault -->
-
-### `setDefault(value: number)`
-
-
-Sets the control's default value. Float, 0 ... 1
-
-
-<div id="getindex-number"></div><!-- alias: getindex -->
-
-### `getIndex(): number`
-
-
-Returns the control's list index.
-
-
-<div id="setindex-value-number"></div><!-- alias: setindex -->
-
-### `setIndex(value: number)`
-
-
-Sets the control's list index.
-
-
-<div id="function-createevent-type-number-value-arraybuffer"></div><!-- alias: createevent -->
-
-## `function createEvent(type: number, value?: ArrayBuffer)`
+## `function createEvent(type: number, buffer?: ArrayBuffer)`
 
 
 Factory function to create a new specific ControlSurfaceEvent.
@@ -651,7 +606,7 @@ Controls on this surface.
 Creates the binary data for this surface and returns it.
 
 
-<div id="setbinary-buffer-arraybuffer--2"></div><!-- alias: setbinary -->
+<div id="setbinary-buffer-arraybuffer"></div><!-- alias: setbinary -->
 
 ### `setBinary(buffer: ArrayBuffer)`
 

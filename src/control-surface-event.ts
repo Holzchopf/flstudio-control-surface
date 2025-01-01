@@ -5,7 +5,7 @@ import { ControlSurfaceControlType, ControlSurfaceControlTypeId } from "./contro
 /**
  * Base class for events.
  */
-export class ControlSurfaceEvent {
+export abstract class ControlSurfaceEvent {
   /**
    * Numeric [[ControlSurfaceEventType]].
    */
@@ -17,28 +17,37 @@ export class ControlSurfaceEvent {
     return ControlSurfaceEventType.name(this.type)
   }
 
-  protected buffer: ArrayBuffer
-  protected view: DataView
+  // protected buffer: ArrayBuffer
+  // protected view: DataView
 
-  constructor(type: number, buffer?: ArrayBuffer) {
+  constructor(type: number) {
     this.type = type
-    this.buffer = buffer ?? new ArrayBuffer(0)
-    this.view = new DataView(this.buffer)
+    // this.buffer = buffer ?? new ArrayBuffer(0)
+    // this.view = new DataView(this.buffer)
   }
 
   /**
    * Returns this event's binary data.
    */
-  getBinary() {
-    return this.buffer
-  }
+  abstract getBinary(): ArrayBuffer
   /**
    * Sets this event's binary data.
    * @param buffer Binary data.
    */
-  setBinary(buffer: ArrayBuffer) {
+  abstract setBinary(buffer: ArrayBuffer): void
+}
+
+/**
+ * Event with unspecified binary data.
+ */
+export class ControlSurfaceBinaryEvent extends ControlSurfaceEvent {
+  buffer = new ArrayBuffer(0)
+
+  getBinary(): ArrayBuffer {
+    return this.buffer
+  }
+  setBinary(buffer: ArrayBuffer): void {
     this.buffer = buffer
-    this.view = new DataView(this.buffer)
   }
 }
 
@@ -46,105 +55,82 @@ export class ControlSurfaceEvent {
  * Event with string value data.
  */
 export class ControlSurfaceStringEvent extends ControlSurfaceEvent {
-  getValue(): string {
-    return new TextDecoder('utf-16le').decode(this.buffer)
-  }
+  value = ''
 
-  setValue(value: string) {
-    const stream = new ArrayBufferStream(new ArrayBuffer(value.length * 2))
-    stream.writeUtf16String(value, true)
-    this.setBinary(stream.buffer)
+  getBinary(): ArrayBuffer {
+    const stream = new ArrayBufferStream(new ArrayBuffer(this.value.length * 2))
+    stream.writeUtf16String(this.value, true)
+    return stream.buffer
+  }
+  setBinary(buffer: ArrayBuffer): void {
+    this.value = new TextDecoder('utf-16le').decode(buffer)
   }
 }
 
 export class ControlSurfaceSettingsEvent extends ControlSurfaceEvent {
-  
-  constructor(type: number, value?: ArrayBuffer) {
-    super(type, value ?? new ArrayBuffer(64))
-  }
+  skip = 0
+  edit = false
+  hideButtons = false
+  hideLabels = false
+  gridSize = 10
 
-  getSkip(): number {
-    return this.view.getUint32(0, true)
+  getBinary(): ArrayBuffer {
+    const buffer = new ArrayBuffer(64)
+    const view = new DataView(buffer)
+    view.setUint32(0, this.skip, true)
+    let flags = 0
+    flags |= (+this.edit << 0)
+    flags |= (+this.hideButtons << 1)
+    flags |= (+this.hideLabels << 2)
+    view.setUint32(4, flags, true)
+    view.setUint32(8, this.gridSize, true)
+    return buffer
   }
-  setSkip(value: number) {
-    this.view.setUint32(0, value, true)
-  }
-
-  private getFlag(bit: number): boolean {
-    let flags = this.view.getUint32(4, true)
-    return !!((flags >> bit) & 0x01)
-  }
-  private setFlag(bit: number, value: boolean) {
-    let flags = this.view.getUint32(4, true)
-    flags |= (+value << bit)
-    this.view!.setUint32(4, flags, true)
-  }
-
-  getEditFlag(): boolean {
-    return this.getFlag(0)
-  }
-  setEditFlag(value: boolean) {
-    this.setFlag(0, value)
-  }
-
-  getHideButtonsFlag(): boolean {
-    return this.getFlag(1)
-  }
-  setHideButtonsFlag(value: boolean) {
-    this.setFlag(1, value)
-  }
-
-  getHideLabelsFlag(): boolean {
-    return this.getFlag(2)
-  }
-  setHideLabelsFlag(value: boolean) {
-    this.setFlag(2, value)
-  }
-
-  getGridSize(): number {
-    return this.view.getUint32(8, true)
-  }
-  setGridSize(value: number) {
-    this.view.setUint32(8, value, true)
+  setBinary(buffer: ArrayBuffer): void {
+    const view = new DataView(buffer)
+    this.skip = view.getUint32(0, true)
+    const flags = view.getUint32(4, true)
+    this.edit = !!((flags >> 0) & 0x01)
+    this.hideButtons = !!((flags >> 1) & 0x01)
+    this.hideLabels = !!((flags >> 2) & 0x01)
+    this.gridSize = view.getUint32(8, true)
   }
 }
 
 export class ControlSurfaceDimensionsEvent extends ControlSurfaceEvent {
-  
-  constructor(type: number, value?: ArrayBuffer) {
-    super(type, value ?? new ArrayBuffer(8))
-  }
+  width = 540
+  height = 454
 
-  getWidth(): number {
-    return this.view.getUint32(0, true)
+  getBinary(): ArrayBuffer {
+    const buffer = new ArrayBuffer(8)
+    const view = new DataView(buffer)
+    view.setUint32(0, this.width, true)
+    view.setUint32(4, this.height, true)
+    return buffer
   }
-  setWidth(value: number) {
-    this.view.setUint32(0, value, true)
-  }
-
-  getHeight(): number {
-    return this.view.getUint32(4, true)
-  }
-  setHeight(value: number) {
-    this.view.setUint32(4, value, true)
+  setBinary(buffer: ArrayBuffer): void {
+    const view = new DataView(buffer)
+    this.width = view.getUint32(0, true)
+    this.height = view.getUint32(4, true)
   }
 }
 
 export class ControlSurfaceStartControlEvent extends ControlSurfaceEvent {
-  
-  constructor(type: number, value?: ArrayBuffer) {
-    super(type, value ?? new ArrayBuffer(32))
-  }
-
-  getControlType(): number {
-    return this.view.getUint32(0, true)
-  }
-  setControlType(value: number) {
-    this.view.setUint32(0, value, true)
-  }
+  controlType = 0
 
   get controlTypeName() {
-    return ControlSurfaceControlType.name(this.getControlType())
+    return ControlSurfaceControlType.name(this.controlType)
+  }
+  
+  getBinary(): ArrayBuffer {
+    const buffer = new ArrayBuffer(32)
+    const view = new DataView(buffer)
+    view.setUint32(0, this.controlType, true)
+    return buffer
+  }
+  setBinary(buffer: ArrayBuffer): void {
+    const view = new DataView(buffer)
+    this.controlType = view.getUint32(0, true)
   }
 }
 
@@ -152,127 +138,74 @@ export class ControlSurfaceStartControlEvent extends ControlSurfaceEvent {
  * Describes how a control is exposed. Enabled controls will have at least one of these events.
  */
 export class ControlSurfaceEnableControlEvent extends ControlSurfaceEvent {
-
-  constructor(type: number, value?: ArrayBuffer) {
-    super(type, value ?? new ArrayBuffer(12))
+  currentValue = 0
+  defaultValue = 0
+  index = 0
+  
+  getBinary(): ArrayBuffer {
+    const buffer = new ArrayBuffer(12)
+    const view = new DataView(buffer)
+    view.setFloat32(0, this.currentValue, true)
+    view.setFloat32(4, this.defaultValue, true)
+    view.setUint32(8, this.index, true)
+    return buffer
   }
-
-  /**
-   * Returns the control's current value. Float, 0 ... 1
-   */
-  getCurrent(): number {
-    return this.view.getFloat32(0, true)
-  }
-  /**
-   * Sets the control's current value. Float, 0 ... 1
-   */
-  setCurrent(value: number) {
-    this.view.setFloat32(0, value, true)
-  }
-
-  /**
-   * Returns the control's default value. Float, 0 ... 1
-   */
-  getDefault(): number {
-    return this.view.getFloat32(0, true)
-  }
-  /**
-   * Sets the control's default value. Float, 0 ... 1
-   */
-  setDefault(value: number) {
-    this.view.setFloat32(0, value, true)
-  }
-
-  /**
-   * Returns the control's list index.
-   */
-  getIndex(): number {
-    return this.view.getUint32(0, true)
-  }
-  /**
-   * Sets the control's list index.
-   */
-  setIndex(value: number) {
-    this.view.setUint32(0, value, true)
+  setBinary(buffer: ArrayBuffer): void {
+    const view = new DataView(buffer)
+    this.currentValue = view.getFloat32(0, true)
+    this.defaultValue = view.getFloat32(4, true)
+    this.index = view.getUint32(8, true)
   }
 }
 
 export class ControlSurfaceControlDimensionsEvent extends ControlSurfaceEvent {
-  
-  constructor(type: number, value?: ArrayBuffer) {
-    super(type, value ?? new ArrayBuffer(16))
-  }
+  x = 0
+  y = 0
+  width = 32
+  height = 32
 
-  getX(): number {
-    return this.view.getFloat32(0, true)
+  getBinary(): ArrayBuffer {
+    const buffer = new ArrayBuffer(16)
+    const view = new DataView(buffer)
+    view.setFloat32(0, this.x + this.width / 2, true)
+    view.setFloat32(4, this.y + this.height / 2, true)
+    view.setFloat32(8, this.width, true)
+    view.setFloat32(12, this.height, true)
+    return buffer
   }
-  setX(value: number) {
-    this.view.setFloat32(0, value, true)
-  }
-
-  getY(): number {
-    return this.view.getFloat32(4, true)
-  }
-  setY(value: number) {
-    this.view.setFloat32(4, value, true)
-  }
-
-  getWidth(): number {
-    return this.view.getFloat32(8, true)
-  }
-  setWidth(value: number) {
-    this.view.setFloat32(8, value, true)
-  }
-
-  getHeight(): number {
-    return this.view.getFloat32(12, true)
-  }
-  setHeight(value: number) {
-    this.view.setFloat32(12, value, true)
+  setBinary(buffer: ArrayBuffer): void {
+    const view = new DataView(buffer)
+    this.width = view.getFloat32(8, true)
+    this.height = view.getFloat32(12, true)
+    this.x = view.getFloat32(0, true) - this.width / 2
+    this.y = view.getFloat32(4, true) - this.height / 2
   }
 }
 
 export class ControlSurfaceControlDefinitionsEvent extends ControlSurfaceStringEvent {
-  getProperty(key: string): string|undefined {
-    const defs = this.getValue().split('\r\n')
-    // find the line for key
-    const def = defs.find((d) => d.startsWith(`  ${key} = `))
-    if (!def) return undefined
-    // extract value
-    return def.split(' = ')[1]
-  }
-  private writeProperty(key: string, value: string, append: boolean) {
-    let defs = this.getValue().split('\r\n')
-    const defStart = defs.splice(0, 1)
-    const defEnd = defs.splice(-1, 1)
-    // find the line for key and update value
-    let found = false
-    defs = defs.map((d) => {
-      if (!found && d.startsWith(`  ${key} = `)) {
-        found = true
-        return d.split(' = ')[0] + ' = ' + value
-      }
-      return d
-    })
-    // append key value pair if it wasn't found
-    if (!found && append) {
-      defs.push(`  ${key} = ${value}`)
-      found = true
-    }
-    // build definitions string anew
-    if (found) {
-      this.setValue(
-        [...defStart, ...defs, ...defEnd].join('\r\n')
-      )
-    }
-    return found
-  }
+  properties: Record<string, string> = {}
+  header = 'control'
+  footer = 'end'
 
-  setProperty(key: string, value: string) {
-    this.writeProperty(key, value, true)
+  getBinary(): ArrayBuffer {
+    this.value = [
+      ...this.header,
+      ...Object.entries(this.properties).map(([key, value]) => {
+        return `  ${key} = ${value}`
+      }),
+      ...this.footer,
+    ].join('\r\n')
+    return super.getBinary()
   }
-  updateProperty(key: string, value: string) {
-    return this.writeProperty(key, value, false)
+  setBinary(buffer: ArrayBuffer): void {
+    super.setBinary(buffer)
+    let defs = this.value.split('\r\n')
+    this.header = defs.splice(0, 1)[0]
+    this.footer = defs.splice(-2, 2)[0]
+    defs.forEach((def) => {
+      const [key, value] = def.trim().split(' = ')
+      this.properties[key] = value
+    })
   }
 }
 
@@ -281,25 +214,49 @@ export class ControlSurfaceControlDefinitionsEvent extends ControlSurfaceStringE
  * @param type ControlSurfaceEventType.
  * @param value Binary data for this event.
  */
-export function createEvent(type: number, value?: ArrayBuffer) {
+export function createEvent(type: number, buffer?: ArrayBuffer) {
   switch (type) {
-    case 2000:
-      return new ControlSurfaceSettingsEvent(type, value)
-    case 2002:
-      return new ControlSurfaceDimensionsEvent(type, value)
-    case 2100:
-      return new ControlSurfaceStartControlEvent(type, value)
-    case 2102:
-      return new ControlSurfaceEnableControlEvent(type, value)
-    case 2104:
-      return new ControlSurfaceControlDimensionsEvent(type, value)
-    case 2103:
-      return new ControlSurfaceStringEvent(type, value)
+    case 2000: {
+      const event = new ControlSurfaceSettingsEvent(type)
+      if (buffer) event.setBinary(buffer)
+      return event
+    }
+    case 2002: {
+      const event = new ControlSurfaceDimensionsEvent(type)
+      if (buffer) event.setBinary(buffer)
+      return event
+    }
+    case 2100: {
+      const event = new ControlSurfaceStartControlEvent(type)
+      if (buffer) event.setBinary(buffer)
+      return event
+    }
+    case 2102: {
+      const event = new ControlSurfaceEnableControlEvent(type)
+      if (buffer) event.setBinary(buffer)
+      return event
+    }
+    case 2104: {
+      const event = new ControlSurfaceControlDimensionsEvent(type)
+      if (buffer) event.setBinary(buffer)
+      return event
+    }
+    case 2103: {
+      const event = new ControlSurfaceStringEvent(type)
+      if (buffer) event.setBinary(buffer)
+      return event
+    }
     case 2105:
     case 2106:
-    case 2107:
-      return new ControlSurfaceControlDefinitionsEvent(type, value)
-    default:
-      return new ControlSurfaceEvent(type, value)
+    case 2107: {
+      const event = new ControlSurfaceControlDefinitionsEvent(type)
+      if (buffer) event.setBinary(buffer)
+      return event
+    }
+    default: {
+      const event = new ControlSurfaceBinaryEvent(type)
+      if (buffer) event.setBinary(buffer)
+      return event
+    }
   }
 }
