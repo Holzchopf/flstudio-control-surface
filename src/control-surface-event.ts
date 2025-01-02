@@ -189,12 +189,12 @@ export class ControlSurfaceControlDefinitionsEvent extends ControlSurfaceStringE
 
   getBinary(): ArrayBuffer {
     this.value = [
-      ...this.header,
+      this.header,
       ...Object.entries(this.properties).map(([key, value]) => {
         return `  ${key} = ${value}`
       }),
-      ...this.footer,
-    ].join('\r\n')
+      this.footer,
+    ].join('\r\n') + '\r\n'
     return super.getBinary()
   }
   setBinary(buffer: ArrayBuffer): void {
@@ -203,7 +203,7 @@ export class ControlSurfaceControlDefinitionsEvent extends ControlSurfaceStringE
     this.header = defs.splice(0, 1)[0]
     this.footer = defs.splice(-2, 2)[0]
     defs.forEach((def) => {
-      const [key, value] = def.trim().split(' = ')
+      const [key, value] = def.trimStart().split(' = ')
       this.properties[key] = value
     })
   }
