@@ -1,35 +1,35 @@
-import { ControlSurfaceDimensionsEvent, ControlSurfaceEvent, ControlSurfaceSettingsEvent } from "./control-surface-event";
-import { ControlSurfaceEventGroup } from "./control-surface-event-group";
-import { ControlSurfaceEventType, ControlSurfaceEventTypeId } from "./control-surface-event-type";
+import { FLCSSDimensionsEvent, FLCSSEvent, FLCSSSettingsEvent } from "./control-surface-event";
+import { FLCSSEventGroup } from "./control-surface-event-group";
+import { FLCSSEventType, FLCSSEventTypeId } from "./control-surface-event-type";
 
 /**
- * Class representing control surface options. Extends [[ControlSurfaceEventGroup]].
+ * Class representing control surface options. Extends [[FLCSSEventGroup]].
  */
-export class ControlSurfaceOptions extends ControlSurfaceEventGroup {
+export class FLCSSOptions extends FLCSSEventGroup {
   /**
    * Settings event.
    */
-  settings?: ControlSurfaceSettingsEvent
+  settings?: FLCSSSettingsEvent
 
   /**
    * Settings event.
    */
-  dimensions?: ControlSurfaceDimensionsEvent
+  dimensions?: FLCSSDimensionsEvent
 
-  unknown?: ControlSurfaceEvent
+  unknown?: FLCSSEvent
 
-  getEvents(): ControlSurfaceEvent[] {
+  getEvents(): FLCSSEvent[] {
     const prototype = [
       this.settings,
       this.dimensions,
       this.unknown,
     ]
-    return prototype.filter((event) => !!event) as ControlSurfaceEvent[]
+    return prototype.filter((event) => !!event) as FLCSSEvent[]
   }
-  setEvents(events: ControlSurfaceEvent[]): void {
+  setEvents(events: FLCSSEvent[]): void {
     super.setEvents(events)
-    this.settings = this.getEventOfType(ControlSurfaceEventType.SurfaceSettings)
-    this.dimensions = this.getEventOfType(ControlSurfaceEventType.SurfaceDimensions)
-    this.unknown = this.getEventOfType(2003 as ControlSurfaceEventTypeId)
+    this.settings = this.getEventOfType(FLCSSEventType.SurfaceSettings)
+    this.dimensions = this.getEventOfType(FLCSSEventType.SurfaceDimensions)
+    this.unknown = this.getEventOfType(2003 as FLCSSEventTypeId)
   }
 }

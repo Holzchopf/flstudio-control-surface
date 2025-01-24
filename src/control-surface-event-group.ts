@@ -1,55 +1,55 @@
-import { ControlSurfaceEvent } from "./control-surface-event";
-import { ControlSurfaceEventTypeId, ControlSurfaceEventTypeName } from "./control-surface-event-type";
+import { FLCSSEvent } from "./control-surface-event";
+import { FLCSSEventTypeId, FLCSSEventTypeName } from "./control-surface-event-type";
 
 /**
- * Class representing a group of [[ControlSurfaceEvent]]s.
+ * Class representing a group of [[FLCSSEvent]]s.
  */
-export class ControlSurfaceEventGroup {
-  private events: ControlSurfaceEvent[] = []
+export class FLCSSEventGroup {
+  private events: FLCSSEvent[] = []
 
   /**
    * Returns the first event in this group of given type id.
-   * @param type [[ControlSurfaceEventTypeId]]
+   * @param type [[FLCSSEventTypeId]]
    */
-  getEventOfType<T extends ControlSurfaceEvent>(type: ControlSurfaceEventTypeId): T|undefined {
+  getEventOfType<T extends FLCSSEvent>(type: FLCSSEventTypeId): T|undefined {
     return this.events.find((e) => e.type === type) as T
   }
 
   /**
    * Returns the first event in this group of given type name.
-   * @param type [[ControlSurfaceEventTypeName]]
+   * @param type [[FLCSSEventTypeName]]
    */
-  getEventOfTypeName<T extends ControlSurfaceEvent>(type: ControlSurfaceEventTypeName): T|undefined {
+  getEventOfTypeName<T extends FLCSSEvent>(type: FLCSSEventTypeName): T|undefined {
     return this.events.find((e) => e.typeName === type) as T
   }
 
   /**
    * Returns all events in this group of given type id.
-   * @param type [[ControlSurfaceEventTypeId]]
+   * @param type [[FLCSSEventTypeId]]
    */
-  getEventsOfType<T extends ControlSurfaceEvent>(type: ControlSurfaceEventTypeId): T[]|undefined {
+  getEventsOfType<T extends FLCSSEvent>(type: FLCSSEventTypeId): T[]|undefined {
     return this.events.filter((e) => e.type === type) as T[]
   }
 
   /**
    * Returns all events in this group of given type name.
-   * @param type [[ControlSurfaceEventTypeName]]
+   * @param type [[FLCSSEventTypeName]]
    */
-  getEventsOfTypeName<T extends ControlSurfaceEvent>(type: ControlSurfaceEventTypeName): T[]|undefined {
+  getEventsOfTypeName<T extends FLCSSEvent>(type: FLCSSEventTypeName): T[]|undefined {
     return this.events.filter((e) => e.typeName === type) as T[]
   }
 
   /**
-   * Returns the [[ControlSurfaceEvent]]s making up this group.
+   * Returns the [[FLCSSEvent]]s making up this group.
    */
-  getEvents(): ControlSurfaceEvent[] {
+  getEvents(): FLCSSEvent[] {
     return this.events
   }
   
   /**
-   * Sets the [[ControlSurfaceEvent]]s making up this group.
+   * Sets the [[FLCSSEvent]]s making up this group.
    */
-  setEvents(events: ControlSurfaceEvent[]) {
+  setEvents(events: FLCSSEvent[]) {
     this.events = events
   }
 }

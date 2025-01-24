@@ -13,7 +13,7 @@ control types:
 
 */
 
-const ControlSurfaceControlTypeRaw = {
+const FLCSSControlTypeRaw = {
   TVectorWheel: 0,
   TQuickXYZ: 1,
   TVectorSlider: 2,
@@ -28,30 +28,30 @@ const ControlSurfaceControlTypeRaw = {
 /**
  * Known control type names.
  */
-export type ControlSurfaceControlTypeName = keyof typeof ControlSurfaceControlTypeRaw
+export type FLCSSControlTypeName = keyof typeof FLCSSControlTypeRaw
 /**
  * Known control type IDs.
  */
-export type ControlSurfaceControlTypeId = typeof ControlSurfaceControlTypeRaw[ControlSurfaceControlTypeName]
+export type FLCSSControlTypeId = typeof FLCSSControlTypeRaw[FLCSSControlTypeName]
 
 /**
- * Types of controls in a [[ControlSurfaceStartControlEvent]].
+ * Types of controls in a [[FLCSSStartControlEvent]].
  */
-export const ControlSurfaceControlType = {
-  ...ControlSurfaceControlTypeRaw,
+export const FLCSSControlType = {
+  ...FLCSSControlTypeRaw,
   /**
    * Returns the name of a given control type ID, or `'unknown'`.
    * @param id Control type ID.
    */
-  name: (id: number): ControlSurfaceControlTypeName | 'unknown' => {
-    const names = Object.keys(ControlSurfaceControlTypeRaw) as ControlSurfaceControlTypeName[]
-    return names.find((n) => ControlSurfaceControlTypeRaw[n] === id) ?? 'unknown'
+  name: (id: number): FLCSSControlTypeName | 'unknown' => {
+    const names = Object.keys(FLCSSControlTypeRaw) as FLCSSControlTypeName[]
+    return names.find((n) => FLCSSControlTypeRaw[n] === id) ?? 'unknown'
   },
   /**
    * Returns the ID for a given control type name, or `undefined`
    * @param name Control type name.
    */
-  byName: (name: string): ControlSurfaceControlTypeId | undefined => {
-    return ControlSurfaceControlTypeRaw[name as ControlSurfaceControlTypeName] ?? undefined
+  byName: (name: string): FLCSSControlTypeId | undefined => {
+    return FLCSSControlTypeRaw[name as FLCSSControlTypeName] ?? undefined
   }
 }

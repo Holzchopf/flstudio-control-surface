@@ -1,66 +1,66 @@
-import { ControlSurfaceControlDefinitionsEvent, ControlSurfaceControlDimensionsEvent, ControlSurfaceEnableControlEvent, ControlSurfaceEvent, ControlSurfaceStartControlEvent, ControlSurfaceStringEvent, createEvent } from "./control-surface-event";
-import { ControlSurfaceEventGroup } from "./control-surface-event-group";
-import { ControlSurfaceEventType } from "./control-surface-event-type";
+import { FLCSSControlDefinitionsEvent, FLCSSControlDimensionsEvent, FLCSSEnableControlEvent, FLCSSEvent, FLCSSStartControlEvent, FLCSSStringEvent, createEvent } from "./control-surface-event";
+import { FLCSSEventGroup } from "./control-surface-event-group";
+import { FLCSSEventType } from "./control-surface-event-type";
 
 /**
- * Class representing a control on the surface. Extends [[ControlSurfaceEventGroup]].
+ * Class representing a control on the surface. Extends [[FLCSSEventGroup]].
  */
-export class ControlSurfaceControl extends ControlSurfaceEventGroup {
+export class FLCSSControl extends FLCSSEventGroup {
   /**
    * Start event.
    */
-  start?: ControlSurfaceStartControlEvent
+  start?: FLCSSStartControlEvent
   /**
    * End event.
    */
-  end?: ControlSurfaceEvent
+  end?: FLCSSEvent
   /**
    * Enable events.
    */
-  enable?: ControlSurfaceEnableControlEvent[]
+  enable?: FLCSSEnableControlEvent[]
   /**
    * Name event.
    */
-  name?: ControlSurfaceStringEvent
+  name?: FLCSSStringEvent
   /**
    * Dimension event.
    */
-  dimensions?: ControlSurfaceControlDimensionsEvent
+  dimensions?: FLCSSControlDimensionsEvent
   /**
    * ILControl event.
    */
-  ILControl?: ControlSurfaceControlDefinitionsEvent
+  ILControl?: FLCSSControlDefinitionsEvent
   /**
    * Color event.
    */
-  colors?: ControlSurfaceControlDefinitionsEvent
+  colors?: FLCSSControlDefinitionsEvent
   /**
    * Properties event.
    */
-  properties?: ControlSurfaceControlDefinitionsEvent
+  properties?: FLCSSControlDefinitionsEvent
 
-  getEvents(): ControlSurfaceEvent[] {
+  getEvents(): FLCSSEvent[] {
     const prototype = [
-      this.start ?? createEvent(ControlSurfaceEventType.StartControl),
+      this.start ?? createEvent(FLCSSEventType.StartControl),
       this.name,
       this.dimensions,
       ...(this.enable ?? []),
       this.ILControl,
       this.colors,
       this.properties,
-      this.end ?? createEvent(ControlSurfaceEventType.EndControl),
+      this.end ?? createEvent(FLCSSEventType.EndControl),
     ]
-    return prototype.filter((event) => !!event) as ControlSurfaceEvent[]
+    return prototype.filter((event) => !!event) as FLCSSEvent[]
   }
-  setEvents(events: ControlSurfaceEvent[]): void {
+  setEvents(events: FLCSSEvent[]): void {
     super.setEvents(events)
-    this.start = this.getEventOfType(ControlSurfaceEventType.StartControl)
-    this.end = this.getEventOfType(ControlSurfaceEventType.EndControl)
-    this.enable = this.getEventsOfType(ControlSurfaceEventType.EnableControl)
-    this.name = this.getEventOfType(ControlSurfaceEventType.Name)
-    this.dimensions = this.getEventOfType(ControlSurfaceEventType.Dimensions)
-    this.ILControl = this.getEventOfType(ControlSurfaceEventType.ILControl)
-    this.colors = this.getEventOfType(ControlSurfaceEventType.Colors)
-    this.properties = this.getEventOfType(ControlSurfaceEventType.Properties)
+    this.start = this.getEventOfType(FLCSSEventType.StartControl)
+    this.end = this.getEventOfType(FLCSSEventType.EndControl)
+    this.enable = this.getEventsOfType(FLCSSEventType.EnableControl)
+    this.name = this.getEventOfType(FLCSSEventType.Name)
+    this.dimensions = this.getEventOfType(FLCSSEventType.Dimensions)
+    this.ILControl = this.getEventOfType(FLCSSEventType.ILControl)
+    this.colors = this.getEventOfType(FLCSSEventType.Colors)
+    this.properties = this.getEventOfType(FLCSSEventType.Properties)
   }
 }

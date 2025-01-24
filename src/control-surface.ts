@@ -1,7 +1,7 @@
 import { ArrayBufferStream, joinArrayBuffers } from "@holzchopf/array-buffer-stream"
-import { ControlSurfaceEvent, createEvent } from "./control-surface-event"
-import { ControlSurfaceOptions } from "./control-surface-options"
-import { ControlSurfaceControl } from "./control-surface-control"
+import { FLCSSEvent, createEvent } from "./control-surface-event"
+import { FLCSSOptions } from "./control-surface-options"
+import { FLCSSControl } from "./control-surface-control"
 
 /*
 
@@ -20,7 +20,7 @@ size byte: event data
 /**
  * Class representing an FL Studio Control Surface plugin state.
  */
-export class ControlSurface {
+export class FLControlSurfaceState {
   /**
    * State version number.
    */
@@ -29,12 +29,12 @@ export class ControlSurface {
   /**
    * Surface options.
    */
-  options = new ControlSurfaceOptions()
+  options = new FLCSSOptions()
 
   /**
    * Controls on this surface.
    */
-  controls: ControlSurfaceControl[] = []
+  controls: FLCSSControl[] = []
 
   /**
    * Creates the binary data for this surface and returns it.
@@ -50,7 +50,7 @@ export class ControlSurface {
     buffers.push(stream.buffer)
 
     // collect events
-    const events: ControlSurfaceEvent[] = []
+    const events: FLCSSEvent[] = []
     events.push(...this.options.getEvents())
     this.controls.forEach((control) => {
       events.push(...control.getEvents())
@@ -79,7 +79,7 @@ export class ControlSurface {
     // header
     this.version = stream.readUint32(true)
 
-    const events: ControlSurfaceEvent[] = []
+    const events: FLCSSEvent[] = []
 
     // read events until end of data
     while (!stream.eof()) {
@@ -91,8 +91,8 @@ export class ControlSurface {
     }
 
     // triage events
-    const optionEvents: ControlSurfaceEvent[] = []
-    let controlEvents: ControlSurfaceEvent[] = []
+    const optionEvents: FLCSSEvent[] = []
+    let controlEvents: FLCSSEvent[] = []
 
     events.forEach((event) => {
       if (event.type < 2100) {
@@ -101,7 +101,7 @@ export class ControlSurface {
         controlEvents.push(event)
         // if an EndControl event occurs, push gathered events and start gathering a new control
         if (event.typeName === 'EndControl') {
-          const control = new ControlSurfaceControl()
+          const control = new FLCSSControl()
           control.setEvents(controlEvents)
           this.controls.push(control)
           controlEvents = []

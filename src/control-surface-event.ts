@@ -1,20 +1,20 @@
 import { ArrayBufferStream } from "@holzchopf/array-buffer-stream"
-import { ControlSurfaceEventType } from "./control-surface-event-type"
-import { ControlSurfaceControlType, ControlSurfaceControlTypeId } from "./control-surface-control-type"
+import { FLCSSEventType } from "./control-surface-event-type"
+import { FLCSSControlType, FLCSSControlTypeId } from "./control-surface-control-type"
 
 /**
- * Base class for events.
+ * Base class for state events.
  */
-export abstract class ControlSurfaceEvent {
+export abstract class FLCSSEvent {
   /**
-   * Numeric [[ControlSurfaceEventType]].
+   * Numeric [[FLCSSEventType]].
    */
   type: number
   /**
-   * Name of [[ControlSurfaceEventType]]. Readonly.
+   * Name of [[FLCSSEventType]]. Readonly.
    */
   get typeName() {
-    return ControlSurfaceEventType.name(this.type)
+    return FLCSSEventType.name(this.type)
   }
 
   // protected buffer: ArrayBuffer
@@ -40,7 +40,7 @@ export abstract class ControlSurfaceEvent {
 /**
  * Event with unspecified binary data.
  */
-export class ControlSurfaceBinaryEvent extends ControlSurfaceEvent {
+export class FLCSSBinaryEvent extends FLCSSEvent {
   buffer = new ArrayBuffer(0)
 
   getBinary(): ArrayBuffer {
@@ -54,7 +54,7 @@ export class ControlSurfaceBinaryEvent extends ControlSurfaceEvent {
 /**
  * Event with string value data.
  */
-export class ControlSurfaceStringEvent extends ControlSurfaceEvent {
+export class FLCSSStringEvent extends FLCSSEvent {
   value = ''
 
   getBinary(): ArrayBuffer {
@@ -67,7 +67,7 @@ export class ControlSurfaceStringEvent extends ControlSurfaceEvent {
   }
 }
 
-export class ControlSurfaceSettingsEvent extends ControlSurfaceEvent {
+export class FLCSSSettingsEvent extends FLCSSEvent {
   skip = 0
   edit = false
   hideButtons = false
@@ -97,7 +97,7 @@ export class ControlSurfaceSettingsEvent extends ControlSurfaceEvent {
   }
 }
 
-export class ControlSurfaceDimensionsEvent extends ControlSurfaceEvent {
+export class FLCSSDimensionsEvent extends FLCSSEvent {
   width = 540
   height = 454
 
@@ -115,11 +115,14 @@ export class ControlSurfaceDimensionsEvent extends ControlSurfaceEvent {
   }
 }
 
-export class ControlSurfaceStartControlEvent extends ControlSurfaceEvent {
+/**
+ * Event starting a new [[FLCSSControl]]
+ */
+export class FLCSSStartControlEvent extends FLCSSEvent {
   controlType = 0
 
   get controlTypeName() {
-    return ControlSurfaceControlType.name(this.controlType)
+    return FLCSSControlType.name(this.controlType)
   }
   
   getBinary(): ArrayBuffer {
@@ -137,7 +140,7 @@ export class ControlSurfaceStartControlEvent extends ControlSurfaceEvent {
 /**
  * Describes how a control is exposed. Enabled controls will have at least one of these events.
  */
-export class ControlSurfaceEnableControlEvent extends ControlSurfaceEvent {
+export class FLCSSEnableControlEvent extends FLCSSEvent {
   currentValue = 0
   defaultValue = 0
   index = 0
@@ -158,7 +161,7 @@ export class ControlSurfaceEnableControlEvent extends ControlSurfaceEvent {
   }
 }
 
-export class ControlSurfaceControlDimensionsEvent extends ControlSurfaceEvent {
+export class FLCSSControlDimensionsEvent extends FLCSSEvent {
   x = 0
   y = 0
   width = 32
@@ -182,7 +185,7 @@ export class ControlSurfaceControlDimensionsEvent extends ControlSurfaceEvent {
   }
 }
 
-export class ControlSurfaceControlDefinitionsEvent extends ControlSurfaceStringEvent {
+export class FLCSSControlDefinitionsEvent extends FLCSSStringEvent {
   properties: Record<string, string> = {}
   header = 'control'
   footer = 'end'
@@ -210,51 +213,51 @@ export class ControlSurfaceControlDefinitionsEvent extends ControlSurfaceStringE
 }
 
 /**
- * Factory function to create a new specific ControlSurfaceEvent.
- * @param type ControlSurfaceEventType.
+ * Factory function to create a new specific FLCSSEvent.
+ * @param type FLCSSEventType.
  * @param value Binary data for this event.
  */
 export function createEvent(type: number, buffer?: ArrayBuffer) {
   switch (type) {
     case 2000: {
-      const event = new ControlSurfaceSettingsEvent(type)
+      const event = new FLCSSSettingsEvent(type)
       if (buffer) event.setBinary(buffer)
       return event
     }
     case 2002: {
-      const event = new ControlSurfaceDimensionsEvent(type)
+      const event = new FLCSSDimensionsEvent(type)
       if (buffer) event.setBinary(buffer)
       return event
     }
     case 2100: {
-      const event = new ControlSurfaceStartControlEvent(type)
+      const event = new FLCSSStartControlEvent(type)
       if (buffer) event.setBinary(buffer)
       return event
     }
     case 2102: {
-      const event = new ControlSurfaceEnableControlEvent(type)
+      const event = new FLCSSEnableControlEvent(type)
       if (buffer) event.setBinary(buffer)
       return event
     }
     case 2104: {
-      const event = new ControlSurfaceControlDimensionsEvent(type)
+      const event = new FLCSSControlDimensionsEvent(type)
       if (buffer) event.setBinary(buffer)
       return event
     }
     case 2103: {
-      const event = new ControlSurfaceStringEvent(type)
+      const event = new FLCSSStringEvent(type)
       if (buffer) event.setBinary(buffer)
       return event
     }
     case 2105:
     case 2106:
     case 2107: {
-      const event = new ControlSurfaceControlDefinitionsEvent(type)
+      const event = new FLCSSControlDefinitionsEvent(type)
       if (buffer) event.setBinary(buffer)
       return event
     }
     default: {
-      const event = new ControlSurfaceBinaryEvent(type)
+      const event = new FLCSSBinaryEvent(type)
       if (buffer) event.setBinary(buffer)
       return event
     }
