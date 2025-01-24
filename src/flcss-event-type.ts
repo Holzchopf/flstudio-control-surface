@@ -15,7 +15,7 @@ chunk types:
 
 */
 
-const ControlSurfaceEventTypeRaw = {
+const FLCSSEventTypeRaw = {
   SurfaceSettings: 2000,
   SurfaceDimensions: 2002,
   
@@ -32,30 +32,30 @@ const ControlSurfaceEventTypeRaw = {
 /**
  * Known event names.
  */
-export type ControlSurfaceEventTypeName = keyof typeof ControlSurfaceEventTypeRaw
+export type FLCSSEventTypeName = keyof typeof FLCSSEventTypeRaw
 /**
  * Known event IDs.
  */
-export type ControlSurfaceEventTypeId = typeof ControlSurfaceEventTypeRaw[ControlSurfaceEventTypeName]
+export type FLCSSEventTypeId = typeof FLCSSEventTypeRaw[FLCSSEventTypeName]
 
 /**
- * Types of the events in an [[ControlSurfaceEventGroup]].
+ * Types of the events in an [[FLCSSEventGroup]].
  */
-export const ControlSurfaceEventType = {
-  ...ControlSurfaceEventTypeRaw,
+export const FLCSSEventType = {
+  ...FLCSSEventTypeRaw,
   /**
    * Returns the name of a given event ID, or `'unknown'`.
    * @param id Event ID.
    */
-  name: (id: number): ControlSurfaceEventTypeName | 'unknown' => {
-    const names = Object.keys(ControlSurfaceEventTypeRaw) as ControlSurfaceEventTypeName[]
-    return names.find((n) => ControlSurfaceEventTypeRaw[n] === id) ?? 'unknown'
+  name: (id: number): FLCSSEventTypeName | 'unknown' => {
+    const names = Object.keys(FLCSSEventTypeRaw) as FLCSSEventTypeName[]
+    return names.find((n) => FLCSSEventTypeRaw[n] === id) ?? 'unknown'
   },
   /**
    * Returns the ID for a given event name, or `undefined`
    * @param name Event name.
    */
-  byName: (name: string): ControlSurfaceEventTypeId | undefined => {
-    return ControlSurfaceEventTypeRaw[name as ControlSurfaceEventTypeName] ?? undefined
+  byName: (name: string): FLCSSEventTypeId | undefined => {
+    return FLCSSEventTypeRaw[name as FLCSSEventTypeName] ?? undefined
   }
 }

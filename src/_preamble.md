@@ -1,6 +1,6 @@
-# @holzchopf/flstudio-control-surface
+# @holzchopf/flstudio-control-surface-state
 
-Allows to read and write FL Studio Control Surface states. The main goal of this package is to modify Control Surface states, thus all the raw data loaded from a state is preserved and all property getters/setters access the raw data.
+Allows to read and write FL Studio Control Surface states. The main goal of this package is to modify Control Surface states.
 
 ## The state format
 
