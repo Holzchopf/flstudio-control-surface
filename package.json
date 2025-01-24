@@ -1,6 +1,6 @@
 {
   "name": "@holzchopf/flstudio-control-surface-state",
-  "version": "4.0.0-a",
+  "version": "4.0.0",
   "description": "Reads and writes FL Studio Control Surface plugin states.",
   "main": "./lib/index.js",
   "module": "./lib/index.js",
