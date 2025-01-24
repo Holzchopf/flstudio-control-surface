@@ -1,6 +1,6 @@
 import { ArrayBufferStream } from "@holzchopf/array-buffer-stream"
-import { FLCSSEventType } from "./control-surface-event-type"
-import { FLCSSControlType, FLCSSControlTypeId } from "./control-surface-control-type"
+import { FLCSSEventType } from "./flcss-event-type"
+import { FLCSSControlType, FLCSSControlTypeId } from "./flcss-control-type"
 
 /**
  * Base class for state events.

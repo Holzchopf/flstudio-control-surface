@@ -18,20 +18,17 @@ This file was auto-generated with `zdoccer.js` 2.0.3
         - [2105 - ILControl](#2105-ilcontrol)
         - [2106 - ILControl, Colors](#2106-ilcontrol-colors)
         - [2107 - ILControl, Properties](#2107-ilcontrol-properties)
+    - [`class FLControlSurfaceState`](#class-flcontrolsurfacestate)
+      - [`version: number = 1`](#version-number-1)
+      - [`options = new FLCSSOptions()`](#options-new-flcssoptions)
+      - [`controls: FLCSSControl[] = []`](#controls-flcsscontrol)
+      - [`getBinary(): ArrayBuffer`](#getbinary-arraybuffer)
+      - [`setBinary(buffer: ArrayBuffer)`](#setbinary-buffer-arraybuffer)
     - [`type FLCSSControlTypeName = keyof typeof FLCSSControlTypeRaw`](#type-flcsscontroltypename-keyof-typeof-flcsscontroltyperaw)
     - [`type FLCSSControlTypeId = typeof FLCSSControlTypeRaw[FLCSSControlTypeName]`](#type-flcsscontroltypeid-typeof-flcsscontroltyperaw-flcsscontroltypename)
     - [`const FLCSSControlType =`](#const-flcsscontroltype)
       - [`name: (id: number): FLCSSControlTypeName | 'unknown' =>`](#name-id-number-flcsscontroltypename-unknown)
       - [`byName: (name: string): FLCSSControlTypeId | undefined =>`](#byname-name-string-flcsscontroltypeid-undefined)
-    - [`class FLCSSControl extends FLCSSEventGroup`](#class-flcsscontrol-extends-flcsseventgroup)
-      - [`start?: FLCSSStartControlEvent`](#start-flcssstartcontrolevent)
-      - [`end?: FLCSSEvent`](#end-flcssevent)
-      - [`enable?: FLCSSEnableControlEvent[]`](#enable-flcssenablecontrolevent)
-      - [`name?: FLCSSStringEvent`](#name-flcssstringevent)
-      - [`dimensions?: FLCSSControlDimensionsEvent`](#dimensions-flcsscontroldimensionsevent)
-      - [`ILControl?: FLCSSControlDefinitionsEvent`](#ilcontrol-flcsscontroldefinitionsevent)
-      - [`colors?: FLCSSControlDefinitionsEvent`](#colors-flcsscontroldefinitionsevent)
-      - [`properties?: FLCSSControlDefinitionsEvent`](#properties-flcsscontroldefinitionsevent)
     - [`class FLCSSEventGroup`](#class-flcsseventgroup)
       - [`getEventOfType<T extends FLCSSEvent>(type: FLCSSEventTypeId): T|undefined`](#geteventoftype-t-extends-flcssevent-type-flcsseventtypeid-t-undefined)
       - [`getEventOfTypeName<T extends FLCSSEvent>(type: FLCSSEventTypeName): T|undefined`](#geteventoftypename-t-extends-flcssevent-type-flcsseventtypename-t-undefined)
@@ -57,12 +54,15 @@ This file was auto-generated with `zdoccer.js` 2.0.3
     - [`class FLCSSOptions extends FLCSSEventGroup`](#class-flcssoptions-extends-flcsseventgroup)
       - [`settings?: FLCSSSettingsEvent`](#settings-flcsssettingsevent)
       - [`dimensions?: FLCSSDimensionsEvent`](#dimensions-flcssdimensionsevent)
-    - [`class FLControlSurfaceState`](#class-flcontrolsurfacestate)
-      - [`version: number = 1`](#version-number-1)
-      - [`options = new FLCSSOptions()`](#options-new-flcssoptions)
-      - [`controls: FLCSSControl[] = []`](#controls-flcsscontrol)
-      - [`getBinary(): ArrayBuffer`](#getbinary-arraybuffer)
-      - [`setBinary(buffer: ArrayBuffer)`](#setbinary-buffer-arraybuffer)
+    - [`class FLCSSControl extends FLCSSEventGroup`](#class-flcsscontrol-extends-flcsseventgroup)
+      - [`start?: FLCSSStartControlEvent`](#start-flcssstartcontrolevent)
+      - [`end?: FLCSSEvent`](#end-flcssevent)
+      - [`enable?: FLCSSEnableControlEvent[]`](#enable-flcssenablecontrolevent)
+      - [`name?: FLCSSStringEvent`](#name-flcssstringevent)
+      - [`dimensions?: FLCSSControlDimensionsEvent`](#dimensions-flcsscontroldimensionsevent)
+      - [`ILControl?: FLCSSControlDefinitionsEvent`](#ilcontrol-flcsscontroldefinitionsevent)
+      - [`colors?: FLCSSControlDefinitionsEvent`](#colors-flcsscontroldefinitionsevent)
+      - [`properties?: FLCSSControlDefinitionsEvent`](#properties-flcsscontroldefinitionsevent)
 
 
 ---
@@ -214,7 +214,62 @@ The value of this event is a `utf-16le` string. It typically contains the proper
 
 ---
 
-*transformed Javadoc from src/control-surface-control-type.ts*
+*transformed Javadoc from src/fl-control-surface.ts*
+
+<div id="class-flcontrolsurfacestate"></div><!-- alias: flcontrolsurfacestate -->
+
+## `class FLControlSurfaceState`
+
+
+Class representing an FL Studio Control Surface plugin state.
+
+
+<div id="version-number-1"></div><!-- alias: version -->
+
+### `version: number = 1`
+
+
+State version number.
+
+
+<div id="options-new-flcssoptions"></div><!-- alias: options -->
+
+### `options = new FLCSSOptions()`
+
+
+Surface options.
+
+
+<div id="controls-flcsscontrol"></div><!-- alias: controls -->
+
+### `controls: FLCSSControl[] = []`
+
+
+Controls on this surface.
+
+
+<div id="getbinary-arraybuffer"></div><!-- alias: getbinary -->
+
+### `getBinary(): ArrayBuffer`
+
+
+Creates the binary data for this surface and returns it.
+
+
+<div id="setbinary-buffer-arraybuffer"></div><!-- alias: setbinary -->
+
+### `setBinary(buffer: ArrayBuffer)`
+
+
+Sets this surface's values from binary data.
+- *param* `buffer` &mdash; Binary data.
+
+
+
+
+---
+
+*transformed Javadoc from src/flcss-control-type.ts*
 
 <div id="type-flcsscontroltypename-keyof-typeof-flcsscontroltyperaw"></div><!-- alias: flcsscontroltypename -->
 
@@ -262,85 +317,7 @@ Returns the ID for a given control type name, or `undefined`
 
 ---
 
-*transformed Javadoc from src/control-surface-control.ts*
-
-<div id="class-flcsscontrol-extends-flcsseventgroup"></div><!-- alias: flcsscontrol -->
-
-## `class FLCSSControl extends FLCSSEventGroup`
-
-
-Class representing a control on the surface. Extends [FLCSSEventGroup **&#x1f875;**](#class-flcsseventgroup).
-
-
-<div id="start-flcssstartcontrolevent"></div><!-- alias: start -->
-
-### `start?: FLCSSStartControlEvent`
-
-
-Start event.
-
-
-<div id="end-flcssevent"></div><!-- alias: end -->
-
-### `end?: FLCSSEvent`
-
-
-End event.
-
-
-<div id="enable-flcssenablecontrolevent"></div><!-- alias: enable -->
-
-### `enable?: FLCSSEnableControlEvent[]`
-
-
-Enable events.
-
-
-<div id="name-flcssstringevent"></div><!-- alias: name -->
-
-### `name?: FLCSSStringEvent`
-
-
-Name event.
-
-
-<div id="dimensions-flcsscontroldimensionsevent"></div><!-- alias: dimensions -->
-
-### `dimensions?: FLCSSControlDimensionsEvent`
-
-
-Dimension event.
-
-
-<div id="ilcontrol-flcsscontroldefinitionsevent"></div><!-- alias: ilcontrol -->
-
-### `ILControl?: FLCSSControlDefinitionsEvent`
-
-
-ILControl event.
-
-
-<div id="colors-flcsscontroldefinitionsevent"></div><!-- alias: colors -->
-
-### `colors?: FLCSSControlDefinitionsEvent`
-
-
-Color event.
-
-
-<div id="properties-flcsscontroldefinitionsevent"></div><!-- alias: properties -->
-
-### `properties?: FLCSSControlDefinitionsEvent`
-
-
-Properties event.
-
-
-
-
----
-
-*transformed Javadoc from src/control-surface-event-group.ts*
+*transformed Javadoc from src/flcss-event-group.ts*
 
 <div id="class-flcsseventgroup"></div><!-- alias: flcsseventgroup -->
 
@@ -406,7 +383,7 @@ Sets the [FLCSSEvent **&#x1f875;**](#abstract-class-flcssevent)s making up this 
 
 ---
 
-*transformed Javadoc from src/control-surface-event-type.ts*
+*transformed Javadoc from src/flcss-event-type.ts*
 
 <div id="type-flcsseventtypename-keyof-typeof-flcsseventtyperaw"></div><!-- alias: flcsseventtypename -->
 
@@ -454,7 +431,7 @@ Returns the ID for a given event name, or `undefined`
 
 ---
 
-*transformed Javadoc from src/control-surface-event.ts*
+*transformed Javadoc from src/flcss-event.ts*
 
 <div id="abstract-class-flcssevent"></div><!-- alias: flcssevent -->
 
@@ -543,7 +520,7 @@ Factory function to create a new specific FLCSSEvent.
 
 ---
 
-*transformed Javadoc from src/control-surface-options.ts*
+*transformed Javadoc from src/flcss-options.ts*
 
 <div id="class-flcssoptions-extends-flcsseventgroup"></div><!-- alias: flcssoptions -->
 
@@ -573,54 +550,77 @@ Settings event.
 
 ---
 
-*transformed Javadoc from src/control-surface.ts*
+*transformed Javadoc from src/flcss-surface-control.ts*
 
-<div id="class-flcontrolsurfacestate"></div><!-- alias: flcontrolsurfacestate -->
+<div id="class-flcsscontrol-extends-flcsseventgroup"></div><!-- alias: flcsscontrol -->
 
-## `class FLControlSurfaceState`
-
-
-Class representing an FL Studio Control Surface plugin state.
+## `class FLCSSControl extends FLCSSEventGroup`
 
 
-<div id="version-number-1"></div><!-- alias: version -->
-
-### `version: number = 1`
+Class representing a control on the surface. Extends [FLCSSEventGroup **&#x1f875;**](#class-flcsseventgroup).
 
 
-State version number.
+<div id="start-flcssstartcontrolevent"></div><!-- alias: start -->
+
+### `start?: FLCSSStartControlEvent`
 
 
-<div id="options-new-flcssoptions"></div><!-- alias: options -->
-
-### `options = new FLCSSOptions()`
+Start event.
 
 
-Surface options.
+<div id="end-flcssevent"></div><!-- alias: end -->
+
+### `end?: FLCSSEvent`
 
 
-<div id="controls-flcsscontrol"></div><!-- alias: controls -->
-
-### `controls: FLCSSControl[] = []`
+End event.
 
 
-Controls on this surface.
+<div id="enable-flcssenablecontrolevent"></div><!-- alias: enable -->
+
+### `enable?: FLCSSEnableControlEvent[]`
 
 
-<div id="getbinary-arraybuffer"></div><!-- alias: getbinary -->
-
-### `getBinary(): ArrayBuffer`
+Enable events.
 
 
-Creates the binary data for this surface and returns it.
+<div id="name-flcssstringevent"></div><!-- alias: name -->
+
+### `name?: FLCSSStringEvent`
 
 
-<div id="setbinary-buffer-arraybuffer"></div><!-- alias: setbinary -->
-
-### `setBinary(buffer: ArrayBuffer)`
+Name event.
 
 
-Sets this surface's values from binary data.
-- *param* `buffer` &mdash; Binary data.
+<div id="dimensions-flcsscontroldimensionsevent"></div><!-- alias: dimensions -->
+
+### `dimensions?: FLCSSControlDimensionsEvent`
+
+
+Dimension event.
+
+
+<div id="ilcontrol-flcsscontroldefinitionsevent"></div><!-- alias: ilcontrol -->
+
+### `ILControl?: FLCSSControlDefinitionsEvent`
+
+
+ILControl event.
+
+
+<div id="colors-flcsscontroldefinitionsevent"></div><!-- alias: colors -->
+
+### `colors?: FLCSSControlDefinitionsEvent`
+
+
+Color event.
+
+
+<div id="properties-flcsscontroldefinitionsevent"></div><!-- alias: properties -->
+
+### `properties?: FLCSSControlDefinitionsEvent`
+
+
+Properties event.
 
 

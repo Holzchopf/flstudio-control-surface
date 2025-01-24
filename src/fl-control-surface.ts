@@ -1,7 +1,7 @@
 import { ArrayBufferStream, joinArrayBuffers } from "@holzchopf/array-buffer-stream"
-import { FLCSSEvent, createEvent } from "./control-surface-event"
-import { FLCSSOptions } from "./control-surface-options"
-import { FLCSSControl } from "./control-surface-control"
+import { FLCSSEvent, createEvent } from "./flcss-event"
+import { FLCSSOptions } from "./flcss-options"
+import { FLCSSControl } from "./flcss-surface-control"
 
 /*
 

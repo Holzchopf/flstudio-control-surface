@@ -1,6 +1,6 @@
-import { FLCSSDimensionsEvent, FLCSSEvent, FLCSSSettingsEvent } from "./control-surface-event";
-import { FLCSSEventGroup } from "./control-surface-event-group";
-import { FLCSSEventType, FLCSSEventTypeId } from "./control-surface-event-type";
+import { FLCSSDimensionsEvent, FLCSSEvent, FLCSSSettingsEvent } from "./flcss-event";
+import { FLCSSEventGroup } from "./flcss-event-group";
+import { FLCSSEventType, FLCSSEventTypeId } from "./flcss-event-type";
 
 /**
  * Class representing control surface options. Extends [[FLCSSEventGroup]].

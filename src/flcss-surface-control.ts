@@ -1,6 +1,6 @@
-import { FLCSSControlDefinitionsEvent, FLCSSControlDimensionsEvent, FLCSSEnableControlEvent, FLCSSEvent, FLCSSStartControlEvent, FLCSSStringEvent, createEvent } from "./control-surface-event";
-import { FLCSSEventGroup } from "./control-surface-event-group";
-import { FLCSSEventType } from "./control-surface-event-type";
+import { FLCSSControlDefinitionsEvent, FLCSSControlDimensionsEvent, FLCSSEnableControlEvent, FLCSSEvent, FLCSSStartControlEvent, FLCSSStringEvent, createEvent } from "./flcss-event";
+import { FLCSSEventGroup } from "./flcss-event-group";
+import { FLCSSEventType } from "./flcss-event-type";
 
 /**
  * Class representing a control on the surface. Extends [[FLCSSEventGroup]].

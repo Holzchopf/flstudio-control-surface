@@ -1,5 +1,5 @@
-import { FLCSSEvent } from "./control-surface-event";
-import { FLCSSEventTypeId, FLCSSEventTypeName } from "./control-surface-event-type";
+import { FLCSSEvent } from "./flcss-event";
+import { FLCSSEventTypeId, FLCSSEventTypeName } from "./flcss-event-type";
 
 /**
  * Class representing a group of [[FLCSSEvent]]s.
