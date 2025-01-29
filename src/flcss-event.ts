@@ -206,7 +206,10 @@ export class FLCSSControlDefinitionsEvent extends FLCSSStringEvent {
     this.header = defs.splice(0, 1)[0]
     this.footer = defs.splice(-2, 2)[0]
     defs.forEach((def) => {
-      const [key, value] = def.trimStart().split(' = ')
+      def = def.trimStart()
+      const idx = def.indexOf(' = ')
+      const key = def.slice(0, idx)
+      const value = def.slice(idx+3)
       this.properties[key] = value
     })
   }
